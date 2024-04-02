@@ -10,10 +10,38 @@ function Register() {
         },
 
         validate: {
-            confirmPassword: (value, values) =>
-            value !== values.password ? 'Passwords did not match' : null,
+            login: (value) => {
+                return value.length <= 5 ? "Login must be at least 6 characters long" : null;
+            },
+            password: (value) => {
+                if (!value || value.length < 8) {
+                    return "Password must be at least 8 characters long";
+                }
+                if (!/[a-z]/.test(value)) {
+                    return "Password must contain at least one lowercase letter";
+                }
+                if (!/[A-Z]/.test(value)) {
+                    return "Password must contain at least one uppercase letter";
+                }
+                if (!/\d/.test(value)) {
+                    return "Password must contain at least one digit";
+                }
+                if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
+                    return "Password must contain at least one special character";
+                }
+                
+                return null;
+            },
+            confirmPassword: (value, values) => {
+                return value !== values.password ? 'Passwords did not match' : null;
+            },
         },
+        onSuccess: (values) => handleSuccess(values)
     });
+
+    const handleSuccess = (values) => {
+        console.log('Poprawna walidacja! Wartości:', values);
+    };
     
     return (
     <Box maw={340} mx="auto">
