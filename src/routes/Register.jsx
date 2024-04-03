@@ -1,12 +1,13 @@
+import { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
 
 function Register() {
     const form = useForm({
         initialValues: {
-            login: '',
-            password: 'secret',
-            confirmPassword: 'sevret',
+            login: 'testowy',
+            password: 'zaq1@WSX',
+            confirmPassword: 'zaq1@WSX',
         },
 
         validate: {
@@ -29,23 +30,40 @@ function Register() {
                 if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
                     return "Password must contain at least one special character";
                 }
-                
+
                 return null;
             },
             confirmPassword: (value, values) => {
                 return value !== values.password ? 'Passwords did not match' : null;
             },
         },
-        onSuccess: (values) => handleSuccess(values)
     });
 
-    const handleSuccess = (values) => {
-        console.log('Poprawna walidacja! Wartości:', values);
+    const handleSubmit = (values) => {
+        fetch('http://localhost:8080/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     };
     
     return (
     <Box maw={340} mx="auto">
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
           label="Login"
           placeholder='Login' 
