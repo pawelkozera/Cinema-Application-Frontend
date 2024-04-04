@@ -6,6 +6,7 @@ function Register() {
     const form = useForm({
         initialValues: {
             login: 'testowy',
+            email: 'test@gmail.com',
             password: 'zaq1@WSX',
             confirmPassword: 'zaq1@WSX',
         },
@@ -13,6 +14,11 @@ function Register() {
         validate: {
             login: (value) => {
                 return value.length <= 5 ? "Login must be at least 6 characters long" : null;
+            },
+            email: (value) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                return emailRegex.test(value) ? null : "Invalid email address";
             },
             password: (value) => {
                 if (!value || value.length < 8) {
@@ -68,6 +74,12 @@ function Register() {
           label="Login"
           placeholder='Login' 
           {...form.getInputProps('login')}
+        />
+
+        <TextInput
+          label="Email"
+          placeholder='Email' 
+          {...form.getInputProps('email')}
         />
 
         <PasswordInput
