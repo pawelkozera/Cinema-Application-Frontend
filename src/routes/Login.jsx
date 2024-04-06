@@ -7,16 +7,33 @@ function Login() {
       login: '',
       password: 'secret',
     },
-
-    validate: {
-      password: (value) =>
-        value !== "secret1" ? 'Passwords did not match' : null,
-      },
   });
+
+  const handleSubmit = (values) => {
+        fetch('http://localhost:8080/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
 
   return (
     <Box maw={340} mx="auto">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
           label="Login"
           placeholder='Login' 
