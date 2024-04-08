@@ -7,6 +7,14 @@ function Login() {
       login: '',
       password: 'secret',
     },
+    validate: {
+      login: (value) => {
+        return value.length <= 0 ? "Login is required" : null;
+      },
+      password: (value) => {
+        return value.length <= 0 ? "Password is required" : null;
+      },
+    },
   });
 
   const handleSubmit = (values) => {
