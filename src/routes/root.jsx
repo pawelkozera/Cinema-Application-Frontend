@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { MantineProvider } from '@mantine/core';
+import './root.css'
 
 export default function Root() {
     return (
@@ -10,6 +11,15 @@ export default function Root() {
                 
                 <nav>
                     <ul>
+                    <li>
+                        <Link to={`/`}>Movies</Link>
+                    </li>
+                    <li>
+                        <Link to={`/`}>Pricelist</Link>
+                    </li>
+                    <li>
+                        <Link to={`/`}>FAQ</Link>
+                    </li>
                     <li>
                         <Link to={`/login`}>Login</Link>
                     </li>
