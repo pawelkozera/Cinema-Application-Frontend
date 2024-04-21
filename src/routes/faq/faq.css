@@ -1,0 +1,8 @@
+#faq {
+    margin: auto;
+    width: 70%;
+}
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}

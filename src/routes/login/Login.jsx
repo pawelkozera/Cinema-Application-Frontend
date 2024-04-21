@@ -54,8 +54,8 @@ function Login() {
           {...form.getInputProps('password')}
         />
 
-        <Group justify="flex-end" mt="md">
-          <Button type="submit">Submit</Button>
+        <Group justify="center" mt="md">
+          <Button type="submit" radius="xl">Submit</Button>
         </Group>
       </form>
     </Box>

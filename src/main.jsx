@@ -7,9 +7,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Root from "./routes/root";
-import Login from './routes/Login';
-import Register from './routes/Register.jsx';
+import Root from "./routes/root/root.jsx";
+import Login from './routes/login/Login.jsx';
+import Register from './routes/register/Register.jsx';
+import Pricelist from './routes/pricelist/pricelist.jsx'
+import Faq from './routes/faq/faq.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +25,15 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
-      }
+      },
+      {
+        path: "pricelist",
+        element: <Pricelist />,
+      },
+      {
+        path: "faq",
+        element: <Faq />,
+      },
     ]
   },
 ]);
