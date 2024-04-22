@@ -8,10 +8,11 @@ import {
 } from "react-router-dom";
 
 import Root from "./routes/root/root.jsx";
-import Login from './routes/login/Login.jsx';
+import Login from './routes/login/login.jsx';
 import Register from './routes/register/Register.jsx';
 import Pricelist from './routes/pricelist/pricelist.jsx'
 import Faq from './routes/faq/faq.jsx';
+import Movies from './routes/movies/movies.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "faq",
         element: <Faq />,
+      },
+      {
+        path: "movies",
+        element: <Movies />,
       },
     ]
   },

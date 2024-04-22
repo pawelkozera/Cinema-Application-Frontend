@@ -5,19 +5,19 @@ function Faq() {
     const groceries = [
         {
             emoji: '💰',
-            value: 'Ticket refund',
+            value: 'Zwrot biletu',
             description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non felis tempus, dapibus ligula eu, sollicitudin augue. Vivamus vel justo sit amet ante dapibus blandit eu id nisi. Pellentesque auctor, dolor sed dignissim hendrerit, nisl neque commodo diam, id pulvinar ipsum enim in magna.',
         },
         {
             emoji: '💳',
-            value: 'Payment methods',
+            value: 'Metody płatności',
             description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non felis tempus, dapibus ligula eu, sollicitudin augue. Vivamus vel justo sit amet ante dapibus blandit eu id nisi. Pellentesque auctor, dolor sed dignissim hendrerit, nisl neque commodo diam, id pulvinar ipsum enim in magna.',
         },
         {
             emoji: '🎁',
-            value: 'Gift cards',
+            value: 'Karty podarunkowe',
             description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non felis tempus, dapibus ligula eu, sollicitudin augue. Vivamus vel justo sit amet ante dapibus blandit eu id nisi. Pellentesque auctor, dolor sed dignissim hendrerit, nisl neque commodo diam, id pulvinar ipsum enim in magna.',
         },

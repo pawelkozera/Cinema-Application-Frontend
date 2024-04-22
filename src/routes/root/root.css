@@ -29,18 +29,12 @@ li a:hover {
 .title-container {
     display: flex;
     flex-wrap: nowrap;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    margin-left: 450px;
-}
-
-.nav-links {
-    margin-left: 300px;
 }
 
 .nav-links li {
     display: inline-block;
-    margin-right: 10px;
 }
 
 #detail {

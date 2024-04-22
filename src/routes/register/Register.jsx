@@ -5,42 +5,42 @@ import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
 function Register() {
     const form = useForm({
         initialValues: {
-            login: 'testowy',
-            email: 'test@gmail.com',
-            password: 'zaq1@WSX',
-            confirmPassword: 'zaq1@WSX',
+            login: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
         },
 
         validate: {
             login: (value) => {
-                return value.length <= 5 ? "Login must be at least 6 characters long" : null;
+                return value.length <= 5 ? "Login musi składać się z minimum 6 znaków" : null;
             },
             email: (value) => {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 
-                return emailRegex.test(value) ? null : "Invalid email address";
+                return emailRegex.test(value) ? null : "Niepoprawny adres email";
             },
             password: (value) => {
                 if (!value || value.length < 8) {
-                    return "Password must be at least 8 characters long";
+                    return "Hasło musi składać się z minimum 8 znaków";
                 }
                 if (!/[a-z]/.test(value)) {
-                    return "Password must contain at least one lowercase letter";
+                    return "Hasło musi zawierać co najmniej 1 małą litere";
                 }
                 if (!/[A-Z]/.test(value)) {
-                    return "Password must contain at least one uppercase letter";
+                    return "Hasło musi zawierać co najmniej 1 dużą litere";
                 }
                 if (!/\d/.test(value)) {
-                    return "Password must contain at least one digit";
+                    return "Hasło musi zawierać co najmniej 1 cyfre";
                 }
                 if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
-                    return "Password must contain at least one special character";
+                    return "Hasło musi zawierać co najmniej 1 znak specjalny";
                 }
 
                 return null;
             },
             confirmPassword: (value, values) => {
-                return value !== values.password ? 'Passwords did not match' : null;
+                return value !== values.password ? 'Hasła nie pasują do siebie' : null;
             },
         },
     });
@@ -83,20 +83,20 @@ function Register() {
         />
 
         <PasswordInput
-            label="Password"
-            placeholder="Password"
+            label="Hasło"
+            placeholder="Hasło"
             {...form.getInputProps('password')}
         />
 
         <PasswordInput
             mt="sm"
-            label="Confirm password"
-            placeholder="Confirm password"
+            label="Potwórz hasło"
+            placeholder="Powtórz hasło"
             {...form.getInputProps('confirmPassword')}
         />
 
         <Group justify="center" mt="md">
-            <Button type="submit" radius="xl">Submit</Button>
+            <Button type="submit" radius="xl">Zarejestruj</Button>
         </Group>
         </form>
     </Box>

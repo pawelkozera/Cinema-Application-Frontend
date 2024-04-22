@@ -5,21 +5,21 @@ function Login() {
   const form = useForm({
     initialValues: {
       login: '',
-      password: 'secret',
+      password: '',
     },
     validate: {
       login: (value) => {
-        return value.length <= 0 ? "Login is required" : null;
+        return value.length <= 0 ? "Należy wpisać login" : null;
       },
       password: (value) => {
-        return value.length <= 0 ? "Password is required" : null;
+        return value.length <= 0 ? "Należy wpisać hasło" : null;
       },
     },
   });
 
   const handleSubmit = (values) => {
         fetch('http://localhost:8080/api/login', {
-            method: 'POST',
+            method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -49,13 +49,13 @@ function Login() {
         />
 
         <PasswordInput
-          label="Password"
-          placeholder="Password"
+          label="Hasło"
+          placeholder="Hasło"
           {...form.getInputProps('password')}
         />
 
         <Group justify="center" mt="md">
-          <Button type="submit" radius="xl">Submit</Button>
+          <Button type="submit" radius="xl">Zaloguj</Button>
         </Group>
       </form>
     </Box>
