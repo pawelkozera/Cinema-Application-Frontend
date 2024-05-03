@@ -1,0 +1,61 @@
+#movie{
+    display: flex;
+}
+
+#movie_information {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+
+#title {
+    display: flex;
+    align-items: center;
+}
+
+#title > h1 {
+    margin-top: 0;
+    margin-left: 40px;
+}
+
+#title > #category{
+    margin-left: 10px;
+}
+
+#movie_details {
+    margin-left: 24px;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+}
+
+#movie_voice_type {
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
+#movie_hours {
+    text-align: left;
+    margin-top: 80px;
+    margin-left: 40px;
+}
+
+.hours {
+    display: flex;
+}
+
+.hours > .mantine-Card-root {
+    text-align: center;
+}
+
+.hours > .mantine-Card-root:nth-child(n+2) {
+    margin-left: 20px;
+}
+
+#movie_description {
+    text-align: left;
+    margin-top: 80px;
+    margin-left: 40px;
+    width: 600px;
+}
