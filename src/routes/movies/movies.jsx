@@ -27,20 +27,20 @@
                 </div>
 
                 <div class="movies_hours">
-                    <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
+                    <Link to={"id/seats"}>
+                        <Card
+                            shadow="sm"
+                            padding="xl"
+                            component="a"
+                            >
 
-                        <Text fw={500} size="lg" mt="md">
-                            10:00
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="green">Napisy</Badge>
-                    </Card>
+                            <Text fw={500} size="lg" mt="md">
+                                10:00
+                            </Text>
+                            <Space h="xs" />
+                            <Badge color="green">Napisy</Badge>
+                        </Card>
+                    </Link>
 
                     <Card
                         shadow="sm"

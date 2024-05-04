@@ -1,5 +1,6 @@
     import { Card, Image, Text, Space, Badge } from '@mantine/core';
-
+    import { Link } from "react-router-dom";
+    
     import './movies_details.css'
 
     function MoviesDetails() {
@@ -35,6 +36,7 @@
                     <div id="movie_hours">
                         <h2> Godziny </h2>
                         <div class="hours">
+                        <Link to={"seats"}>
                             <Card
                                 shadow="sm"
                                 padding="xl"
@@ -49,6 +51,7 @@
                                 <Space h="xs" />
                                 <Badge color="green">Napisy</Badge>
                             </Card>
+                        </Link>
 
                             <Card
                                 shadow="sm"

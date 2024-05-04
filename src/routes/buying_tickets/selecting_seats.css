@@ -1,0 +1,24 @@
+#selecting_seats_container {
+    display: flex;
+}
+
+#selecting_seats_right_side {
+    margin-left: 80px;
+}
+
+#selecting_seats_movie_details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: 20px;
+}
+
+#selecting_seats_movie_information {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#selecting_seats_transaction_details {
+    margin-top: 80px;
+}

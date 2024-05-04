@@ -15,6 +15,7 @@ import Faq from './routes/faq/faq.jsx';
 import Movies from './routes/movies/movies.jsx';
 import MoviesDetails from './routes/movies_details/movies_details.jsx';
 import SelectCinema from './routes/select_cinema/select_cinema.jsx';
+import SelectSeats from './routes/buying_tickets/selecting_seats.jsx';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "movies/id",
         element: <MoviesDetails />,
+      },
+      {
+        path: "movies/id/seats",
+        element: <SelectSeats />,
       },
     ]
   },
