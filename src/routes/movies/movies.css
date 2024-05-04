@@ -20,3 +20,7 @@
 .movies_hours > .mantine-Card-root {
     margin-left: 20px;
 }
+
+a {
+    color: inherit;
+}

@@ -1,0 +1,8 @@
+.cinemas {
+    display: flex;
+    justify-content: center;
+}
+
+.cinemas .mantine-Card-root {
+    margin-left: 20px;
+}

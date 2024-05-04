@@ -14,12 +14,17 @@ import Pricelist from './routes/pricelist/pricelist.jsx'
 import Faq from './routes/faq/faq.jsx';
 import Movies from './routes/movies/movies.jsx';
 import MoviesDetails from './routes/movies_details/movies_details.jsx';
+import SelectCinema from './routes/select_cinema/select_cinema.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     children: [
+      {
+        path: "",
+        element: <SelectCinema />,
+      },
       {
         path: "login",
         element: <Login />,

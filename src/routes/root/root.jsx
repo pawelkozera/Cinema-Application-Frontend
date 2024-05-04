@@ -1,19 +1,19 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { MantineProvider } from '@mantine/core';
 import './root.css'
 
 export default function Root() {
+    const location = useLocation();
+
     return (
         <MantineProvider>
-            <div id="sidebar">
+            <div id="sidebar" style={{ display: location.pathname === '/' ? 'none' : 'block' }}>
                 <div className="title-container">
                     <ul className="nav-links">
                         <li>
                             <Link to={`/`}>Wybierz kino</Link>
                         </li>
                     </ul>
-
-                    <h1 class="title">Cinema</h1>
 
                     <ul className="nav-links">
                         <li>
@@ -24,6 +24,9 @@ export default function Root() {
                         </li>
                     </ul>
                 </div>
+
+                <h1 class="title">Cinema</h1>
+                
                 <nav>
                     <ul>
                         <li>
@@ -38,6 +41,11 @@ export default function Root() {
                     </ul>
                 </nav>
             </div>
+
+            <div style={{ display: location.pathname !== '/' ? 'none' : 'block' }}>
+                <h1 class="title">Cinema</h1>
+            </div>
+            
             <div id="detail">
                 <Outlet />
             </div>

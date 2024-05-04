@@ -1,4 +1,5 @@
     import { Card, Image, Text, Space, Badge } from '@mantine/core';
+    import { Link } from "react-router-dom";
 
     import './movies.css'
 
@@ -7,17 +8,19 @@
         <div class='movies_container'>
             <div class='movie'>
                 <div class="movies_image">
-                    <Image
-                        radius="md"
-                        h={200}
-                        w="auto"
-                        fit="contain"
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
-                    />
+                    <Link to={"/movies/id"}>
+                        <Image
+                            radius="md"
+                            h={200}
+                            w="auto"
+                            fit="contain"
+                            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                        />
+                    </Link>
                 </div>
 
                 <div class='movies_details'>
-                    <h2>Tytuł</h2>
+                    <Link to={"/movies/id"}> <h2>Tytuł</h2> </Link>
                     <Text>Familijny</Text>
                     <Badge color="green">Napisy</Badge>
                     <Badge color="grape">Dubbing</Badge>    
