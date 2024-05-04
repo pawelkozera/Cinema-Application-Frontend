@@ -1,33 +1,12 @@
     import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect } from '@mantine/core';
     import { Link } from "react-router-dom";
 
-    import './payment.css'
+    import './payment_summary.css'
 
-    function Payment() {
+    function PaymentSummary() {
         return (
-            <div id='payment_container'>
-                <div id="payment_leftside">
-                    <TextInput
-                        label="Email"
-                        placeholder="Email"
-                    />
-                    <Space h="lg" />
-                    <Select
-                        label="Wybierz płatność"
-                        placeholder="Wybierz płatność"
-                        data={['PayPal', 'ING']}
-                    />
-                    <Space h="lg" />
-                    <Text>Ilość: 2</Text>
-                    <Space h="lg" />
-                    <Text>Cena: 13 PLN </Text>
-                    <Space h="lg" />
-                    <Link to={"summary"}>
-                        <Button variant="filled" color="green" size="lg" radius="xl">Kup</Button>
-                    </Link>
-                </div>
-
-                <div id="payment_rightside">
+            <div id='payment_summary_container'>
+                <div id='payment_summary_leftside'>
                     <div class="selecting_seats_movie_details">
                         <div class="selecting_seats_movie_image">
                             <Link to={"/movies/id"}>
@@ -55,10 +34,15 @@
                             <Space h="xs" />
                             <Badge color="green">Napisy</Badge>
                         </Card> 
-                    </div> 
+                    </div>
 
                     <Space h="lg" />
-            
+                    <Space h="lg" />
+                    <Text> Status transakcji: Zapłacono</Text>
+                    <Space h="lg" />
+                    <Space h="lg" />
+
+                    <Text> Ilość: 2 </Text>
                     <MultiSelect
                         label="Wybrane miejsca"
                         placeholder=""
@@ -68,17 +52,28 @@
                         disabled
                     />
                     <Space h="lg" />
+                    <Text> Cena: 13 PLN </Text>
 
-                    <Image
-                        radius="md"
-                        h="400"
-                        w="auto"
-                        fit="contain"
-                        src="https://plymouthartscinema.org/wp-content/uploads/2021/09/Access-seating-plan-Sep-2021-1000x752.png"
+                    <Space h="lg" />
+                    <Space h="lg" />
+                    <Button variant="filled" color="green" size="lg" radius="xl">Pobierz bilet</Button>
+                </div>
+
+                <div id='payment_summary_rightside'>
+                    <Text> Czas na zwrot biletu: </Text>
+                    <Space h="xs" />
+                    <Text> Pozostało 4 dni 2 godziny </Text>
+                    <Space h="lg" />
+                    <TextInput
+                        label="Email"
+                        placeholder="Email"
                     />
+                    <Space h="lg" />
+                    <Space h="lg" />
+                    <Button variant="filled" color="green" size="lg" radius="xl">Zwrot biletu</Button>
                 </div>
             </div>
         );
     }
 
-    export default Payment;
+    export default PaymentSummary;

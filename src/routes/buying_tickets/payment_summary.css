@@ -1,0 +1,8 @@
+#payment_summary_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#payment_summary_rightside {
+    width: 300px;
+}
