@@ -1,0 +1,13 @@
+.account_movies_watched {
+    display: flex;
+    align-items: center;
+}
+
+.account_movies_watched > div {
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
+.account_movies_watched > .mantine-Button-root {
+    margin-left: 40px;
+}

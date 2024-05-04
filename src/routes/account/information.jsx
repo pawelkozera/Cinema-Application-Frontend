@@ -12,35 +12,37 @@
                         <Text> Dane </Text>
                     </Link>
 
-                    <Link to={""}>
+                    <Link to={"history"}>
                         <Text> Historia </Text>
                     </Link>
                 </div>
                 <div class="account_rightside">
-                    <Text> Email: test@gmail.com</Text>
-                    <Space h="lg" />
-                    <Space h="lg" />
+                    <div id='account_information_details'>
+                        <Text> Email: test@gmail.com</Text>
+                        <Space h="lg" />
+                        <Space h="lg" />
 
-                    <PasswordInput
-                        label="Stare hasło"
-                        placeholder="Stare hasło"
-                    />
-                    <Space h="lg" />
+                        <PasswordInput
+                            label="Stare hasło"
+                            placeholder="Stare hasło"
+                        />
+                        <Space h="lg" />
 
-                    <PasswordInput
-                        label="Nowe hasło"
-                        placeholder="Nowe hasło"
-                    />
-                    <Space h="lg" />
+                        <PasswordInput
+                            label="Nowe hasło"
+                            placeholder="Nowe hasło"
+                        />
+                        <Space h="lg" />
 
-                    <PasswordInput
-                        label="Powtórz nowe hasło"
-                        placeholder="Powtórz nowe hasło"
-                    />
-                    <Space h="lg" />
-                    <Space h="lg" />
+                        <PasswordInput
+                            label="Powtórz nowe hasło"
+                            placeholder="Powtórz nowe hasło"
+                        />
+                        <Space h="lg" />
+                        <Space h="lg" />
 
-                    <Button variant="filled" color="green" size="lg" radius="xl">Zmień hasło</Button>
+                        <Button variant="filled" color="green" size="lg" radius="xl">Zmień hasło</Button>
+                    </div>
                 </div>
             </div>
         );

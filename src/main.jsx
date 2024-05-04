@@ -19,6 +19,7 @@ import SelectSeats from './routes/buying_tickets/selecting_seats.jsx';
 import Payment from './routes/buying_tickets/payment.jsx';
 import PaymentSummary from './routes/buying_tickets/payment_summary.jsx';
 import Information from './routes/account/information.jsx';
+import History from './routes/account/history.jsx';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "account",
         element: <Information />,
+      },
+      {
+        path: "account/history",
+        element: <History />,
       },
     ]
   },
