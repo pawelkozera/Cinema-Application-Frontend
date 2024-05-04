@@ -17,7 +17,7 @@
     margin-left: 40px;
 }
 
-.movies_hours > .mantine-Card-root {
+.movies_hours .mantine-Card-root {
     margin-left: 20px;
 }
 

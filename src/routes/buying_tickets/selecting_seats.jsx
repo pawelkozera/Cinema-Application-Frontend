@@ -16,7 +16,7 @@
                     />
                 </div>
                 <div id="selecting_seats_right_side">
-                    <div id="selecting_seats_movie_details">
+                    <div class="selecting_seats_movie_details">
                         <div class="selecting_seats_movie_image">
                             <Link to={"/movies/id"}>
                                 <Image
@@ -29,7 +29,7 @@
                             </Link>
                         </div>
 
-                        <div id='selecting_seats_movie_information'>
+                        <div class='selecting_seats_movie_information'>
                             <Link to={"/movies/id"}> <h1>Tytuł</h1> </Link>
                         </div>
                         <Card
@@ -55,7 +55,9 @@
                         <Space h="lg" />
                         <Text>Cena: </Text>
                         <Space h="lg" />
-                        <Button variant="filled" color="green" size="lg" radius="xl">Dalej</Button>
+                        <Link to={"payment"}>
+                            <Button variant="filled" color="green" size="lg" radius="xl">Dalej</Button>
+                        </Link>
                     </div>
                 </div>
             </div>

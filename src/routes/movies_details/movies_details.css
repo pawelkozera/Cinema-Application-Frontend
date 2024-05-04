@@ -45,11 +45,11 @@
     display: flex;
 }
 
-.hours > .mantine-Card-root {
+.hours .mantine-Card-root {
     text-align: center;
 }
 
-.hours > .mantine-Card-root:nth-child(n+2) {
+.hours .mantine-Card-root:nth-child(n+2) {
     margin-left: 20px;
 }
 

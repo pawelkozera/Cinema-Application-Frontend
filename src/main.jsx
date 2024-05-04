@@ -16,6 +16,7 @@ import Movies from './routes/movies/movies.jsx';
 import MoviesDetails from './routes/movies_details/movies_details.jsx';
 import SelectCinema from './routes/select_cinema/select_cinema.jsx';
 import SelectSeats from './routes/buying_tickets/selecting_seats.jsx';
+import Payment from './routes/buying_tickets/payment.jsx';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "movies/id/seats",
         element: <SelectSeats />,
+      },
+      {
+        path: "movies/id/seats/payment",
+        element: <Payment />,
       },
     ]
   },

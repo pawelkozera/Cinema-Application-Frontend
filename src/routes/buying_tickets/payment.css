@@ -1,0 +1,8 @@
+#payment_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#payment_leftside {
+    width: 300px;
+}
