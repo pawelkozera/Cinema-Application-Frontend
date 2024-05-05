@@ -21,6 +21,7 @@ import PaymentSummary from './routes/buying_tickets/payment_summary.jsx';
 import Information from './routes/account/information.jsx';
 import History from './routes/account/history.jsx';
 import AdminAddMovie from './routes/admin/add_movie.jsx';
+import AdminEditMovie from './routes/admin/edit_movie.jsx';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "admin/addmovie",
         element: <AdminAddMovie />,
+      },
+      {
+        path: "admin/editmovie",
+        element: <AdminEditMovie />,
       },
     ]
   },
