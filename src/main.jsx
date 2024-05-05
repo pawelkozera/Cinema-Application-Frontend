@@ -22,6 +22,7 @@ import Information from './routes/account/information.jsx';
 import History from './routes/account/history.jsx';
 import AdminAddMovie from './routes/admin/add_movie.jsx';
 import AdminEditMovie from './routes/admin/edit_movie.jsx';
+import AdminDeleteMovie from './routes/admin/delete_movie.jsx';
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: "admin/editmovie",
         element: <AdminEditMovie />,
+      },
+      {
+        path: "admin/deletemovie",
+        element: <AdminDeleteMovie />,
       },
     ]
   },
