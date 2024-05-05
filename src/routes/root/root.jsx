@@ -7,7 +7,7 @@ export default function Root() {
 
     return (
         <MantineProvider>
-            <div id="sidebar" style={{ display: location.pathname === '/' ? 'none' : 'block' }}>
+            <div id="sidebar" style={{ display: (location.pathname === '/' || location.pathname.startsWith('/admin')) ? 'none' : 'block' }}>
                 <div className="title-container">
                     <ul className="nav-links">
                         <li>
@@ -42,8 +42,32 @@ export default function Root() {
                 </nav>
             </div>
 
-            <div style={{ display: location.pathname !== '/' ? 'none' : 'block' }}>
+            <div style={{ display: location.pathname === '/' ? 'block' : 'none' }}>
                 <h1 class="title">Cinema</h1>
+            </div>
+
+            <div id="sidebar" style={{ display: location.pathname.startsWith('/admin') ? 'block' : 'none' }}>
+                <h1 class="title">Cinema</h1>
+                
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to={`admin/addmovie`}>Dodaj film</Link>
+                        </li>
+                        <li>
+                            <Link to={`/admin/editmovie`}>Edytuj film</Link>
+                        </li>
+                        <li>
+                            <Link to={`/admin/deletemovie`}>Usuń film</Link>
+                        </li>
+                        <li>
+                            <Link to={`/admin/addmoviehours`}>Dodaj godziny</Link>
+                        </li>
+                        <li>
+                            <Link to={`/admin/deletemoviehours`}>Usuń godziny</Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             
             <div id="detail">
