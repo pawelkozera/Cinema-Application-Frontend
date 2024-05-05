@@ -1,0 +1,8 @@
+.admin_container {
+    display: flex;
+    justify-content: center;
+}
+
+.admin_form {
+    width: 30%;
+}

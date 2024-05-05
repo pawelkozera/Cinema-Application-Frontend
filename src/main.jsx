@@ -20,6 +20,7 @@ import Payment from './routes/buying_tickets/payment.jsx';
 import PaymentSummary from './routes/buying_tickets/payment_summary.jsx';
 import Information from './routes/account/information.jsx';
 import History from './routes/account/history.jsx';
+import AdminAddMovie from './routes/admin/add_movie.jsx';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "account/history",
         element: <History />,
+      },
+      {
+        path: "admin/addmovie",
+        element: <AdminAddMovie />,
       },
     ]
   },
