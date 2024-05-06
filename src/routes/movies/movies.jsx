@@ -1,146 +1,72 @@
-    import { Card, Image, Text, Space, Badge } from '@mantine/core';
-    import { Link } from "react-router-dom";
+import { Card, Image, Text, Space, Badge } from '@mantine/core';
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
-    import './movies.css'
+import './movies.css'
 
-    function Movies() {
+function Movies() {
+    const { cinemaName } = useParams();
+    const [moviesData, setMoviesData] = useState([]);
+    const [availableFormats, setAvailableFormats] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/movies')
+            .then(response => response.json())
+            .then(data => {
+                setMoviesData(data);
+                const formats = new Set(data.flatMap(movie => movie.screeningDates.map(screening => screening.format)));
+                setAvailableFormats(Array.from(formats));
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+    }, []);
+
     return (
-        <div class='movies_container'>
-            <div class='movie'>
-                <div class="movies_image">
-                    <Link to={"/movies/id"}>
-                        <Image
-                            radius="md"
-                            h={200}
-                            w="auto"
-                            fit="contain"
-                            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
-                        />
-                    </Link>
-                </div>
+        <div className='movies_container'>
+            {moviesData.map(movie => (
+                <div key={movie.id} className='movie'>
+                    <div className="movies_image">
+                        <Link to={`/movies/${movie.id}`}>
+                            <Image
+                                radius="md"
+                                h={200}
+                                w="auto"
+                                fit="contain"
+                                src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                            />
+                        </Link>
+                    </div>
 
-                <div class='movies_details'>
-                    <Link to={"/movies/id"}> <h2>Tytuł</h2> </Link>
-                    <Text>Familijny</Text>
-                    <Badge color="green">Napisy</Badge>
-                    <Badge color="grape">Dubbing</Badge>    
-                </div>
+                    <div className='movies_details'>
+                        <Link to={`/movies/${movie.id}`}>
+                            <h2>{movie.title}</h2>
+                        </Link>
+                        <Text>{movie.type}</Text>
+                        {availableFormats.map(format => (
+                            <Badge key={format} color={format === "Napisy" ? "green" : "grape"}>{format}</Badge>
+                        ))}
+                    </div>
 
-                <div class="movies_hours">
-                    <Link to={"id/seats"}>
-                        <Card
-                            shadow="sm"
-                            padding="xl"
-                            component="a"
+                    <div className="movies_hours">
+                        {movie.screeningDates.map(screening => (
+                            <Card
+                                key={screening.date}
+                                shadow="sm"
+                                padding="xl"
+                                component="a"
+                                href={`/${movie.id}/seats`}
                             >
-
-                            <Text fw={500} size="lg" mt="md">
-                                10:00
-                            </Text>
-                            <Space h="xs" />
-                            <Badge color="green">Napisy</Badge>
-                        </Card>
-                    </Link>
-
-                    <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
-
-                        <Text fw={500} size="lg" mt="md">
-                            12:30
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="grape">Dubbing</Badge>  
-                    </Card>
-
-                    <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
-
-                        <Text fw={500} size="lg" mt="md">
-                            14:15
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="green">Napisy</Badge>
-                    </Card>
+                                <Text fw={500} size="lg" mt="md">
+                                    {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </Text>
+                                <Space h="xs" />
+                                <Badge color={screening.format === "Napisy" ? "green" : "grape"}>{screening.format}</Badge>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
-            </div>
-
-            <div class='movie'>
-                <div class="movies_image">
-                    <Image
-                        radius="md"
-                        h={200}
-                        w="auto"
-                        fit="contain"
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
-                    />
-                </div>
-
-                <div class='movies_details'>
-                    <h2>Tytuł</h2>
-                    <Text>Familijny</Text>
-                    <Badge color="green">Napisy</Badge>
-                    <Badge color="grape">Dubbing</Badge>  
-                </div>
-
-                <div class="movies_hours">
-                <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
-
-                        <Text fw={500} size="lg" mt="md">
-                            10:00
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="green">Napisy</Badge>
-                    </Card>
-
-                    <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
-
-                        <Text fw={500} size="lg" mt="md">
-                            13:00
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="grape">Dubbing</Badge>  
-                    </Card>
-
-                    <Card
-                        shadow="sm"
-                        padding="xl"
-                        component="a"
-                        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                        target="_blank"
-                        >
-
-                        <Text fw={500} size="lg" mt="md">
-                            16:00
-                        </Text>
-                        <Space h="xs" />
-                        <Badge color="green">Napisy</Badge>
-                    </Card>
-                </div>
-            </div>
+            ))}
         </div>
     );
-    }
+}
 
-    export default Movies;
+export default Movies;
