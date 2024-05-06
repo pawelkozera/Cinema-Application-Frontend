@@ -52,7 +52,7 @@ const router = createBrowserRouter([
         element: <Faq />,
       },
       {
-        path: "movies",
+        path: "movies/:cinemaName",
         element: <Movies />,
       },
       {
