@@ -2,6 +2,8 @@
     import { Link } from "react-router-dom";
 
     import './selecting_seats.css'
+    import logo from './a.png';
+    import seats from './b.png';
 
     function SelectSeats() {
         return (
@@ -12,7 +14,7 @@
                         h="400"
                         w="auto"
                         fit="contain"
-                        src="https://plymouthartscinema.org/wp-content/uploads/2021/09/Access-seating-plan-Sep-2021-1000x752.png"
+                        src={seats}
                     />
                 </div>
                 <div id="selecting_seats_right_side">
@@ -24,7 +26,7 @@
                                     h={150}
                                     w="auto"
                                     fit="contain"
-                                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                                    src={logo}
                                 />
                             </Link>
                         </div>

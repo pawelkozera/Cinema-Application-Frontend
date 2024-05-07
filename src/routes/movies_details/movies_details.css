@@ -49,7 +49,7 @@
     text-align: center;
 }
 
-.hours .mantine-Card-root:nth-child(n+2) {
+.hours .hour:nth-child(n+2) {
     margin-left: 20px;
 }
 

@@ -1,8 +1,9 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useParams } from "react-router-dom";
 import { MantineProvider } from '@mantine/core';
 import './root.css'
 
 export default function Root() {
+    const { cinemaName } = useParams();
     const location = useLocation();
 
     return (
@@ -17,10 +18,10 @@ export default function Root() {
 
                     <ul className="nav-links">
                         <li>
-                            <Link to={`/login`}>Login</Link>
+                            <Link to={`${cinemaName}/login`}>Login</Link>
                         </li>
                         <li>
-                            <Link to={`/register`}>Rejestracja</Link>
+                            <Link to={`${cinemaName}/register`}>Rejestracja</Link>
                         </li>
                     </ul>
                 </div>
@@ -30,13 +31,13 @@ export default function Root() {
                 <nav>
                     <ul>
                         <li>
-                            <Link to={`/movies`}>Repertuar</Link>
+                            <Link to={`${cinemaName}/movies`}>Repertuar</Link>
                         </li>
                         <li>
-                            <Link to={`/pricelist`}>Cennik</Link>
+                            <Link to={`${cinemaName}/pricelist`}>Cennik</Link>
                         </li>
                         <li>
-                            <Link to={`/faq`}>FAQ</Link>
+                            <Link to={`${cinemaName}/faq`}>FAQ</Link>
                         </li>
                     </ul>
                 </nav>

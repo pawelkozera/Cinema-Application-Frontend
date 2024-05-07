@@ -36,39 +36,39 @@ const router = createBrowserRouter([
         element: <SelectCinema />,
       },
       {
-        path: "login",
+        path: ":cinemaName/login",
         element: <Login />,
       },
       {
-        path: "register",
+        path: ":cinemaName/register",
         element: <Register />,
       },
       {
-        path: "pricelist",
+        path: ":cinemaName/pricelist",
         element: <Pricelist />,
       },
       {
-        path: "faq",
+        path: ":cinemaName/faq",
         element: <Faq />,
       },
       {
-        path: "movies/:cinemaName",
+        path: ":cinemaName/movies",
         element: <Movies />,
       },
       {
-        path: "movies/id",
+        path: ":cinemaName/movies/:movieId",
         element: <MoviesDetails />,
       },
       {
-        path: "movies/id/seats",
+        path: ":cinemaName/movies/:movieId/seats",
         element: <SelectSeats />,
       },
       {
-        path: "movies/id/seats/payment",
+        path: ":cinemaName/movies/:movieId/seats/payment",
         element: <Payment />,
       },
       {
-        path: "movies/id/seats/payment/summary",
+        path: ":cinemaName/movies/:movieId/seats/payment/summary",
         element: <PaymentSummary />,
       },
       {

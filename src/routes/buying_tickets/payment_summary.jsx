@@ -2,6 +2,7 @@
     import { Link } from "react-router-dom";
 
     import './payment_summary.css'
+    import logo from './a.png';
 
     function PaymentSummary() {
         return (
@@ -15,7 +16,7 @@
                                     h={150}
                                     w="auto"
                                     fit="contain"
-                                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                                    src={logo}
                                 />
                             </Link>
                         </div>

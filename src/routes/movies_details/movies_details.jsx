@@ -1,11 +1,29 @@
-    import { Card, Image, Text, Space, Badge } from '@mantine/core';
-    import { Link } from "react-router-dom";
-    
-    import './movies_details.css'
+import { useEffect, useState } from 'react';
+import { Card, Image, Text, Space, Badge } from '@mantine/core';
+import { Link, useParams } from "react-router-dom";
 
-    function MoviesDetails() {
+import './movies_details.css'
+import logo from './a.png';
+
+function MoviesDetails() {
+    const { cinemaName, movieId } = useParams();
+    const [movieData, setMovieData] = useState([]);
+    const [availableFormats, setAvailableFormats] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/${cinemaName}/movies/${movieId}`)
+            .then(response => response.json())
+            .then(data => {
+                setMovieData(data);
+                const formats = new Set(data.flatMap(movie => movie.screeningDates.map(screening => screening.format)));
+                setAvailableFormats(Array.from(formats));
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+    }, []);
+
     return (
         <div id='movies_container'>
+            {movieData.map(movie => (
             <div id='movie'>
                 <div id="movie_image">
                     <Image
@@ -13,89 +31,60 @@
                         h={200}
                         w="auto"
                         fit="contain"
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                        src={logo}
                     />
                 </div>
 
                 <div id="movie_information">
                     <div id="title">
-                        <h1>Tytuł</h1>
-                        <Text id="category" c="dimmed">Familijny</Text>
+                        <h1> {movie.title} </h1>
+                        <Text id="category" c="dimmed">{movie.type}</Text>
                     </div>
                     <div id="movie_details">
-                        <Text> Komedia </Text>
-                        <Text> Od 13 lat </Text>
-                        <Text> 122 min </Text>
-                        <Text> USA (2024) </Text>
+                        <Text> {movie.category} </Text>
+                        <Text> Od {movie.ageRating} lat </Text>
+                        <Text> {movie.length} min </Text>
+                        <Text> {movie.countryProduction} </Text>
                     </div>
                     <div id="movie_voice_type">
-                        <Badge color="green">Napisy</Badge>
-                        <Badge color="grape">Dubbing</Badge>  
+                        {availableFormats.map(format => (
+                            <Badge key={format} color={format === "Napisy" ? "green" : "grape"}>{format}</Badge>
+                        ))}
                     </div>
 
                     <div id="movie_hours">
                         <h2> Godziny </h2>
                         <div class="hours">
-                        <Link to={"seats"}>
-                            <Card
-                                shadow="sm"
-                                padding="xl"
-                                component="a"
-                                >
-
-                                <Text fw={500} size="lg" mt="md">
-                                    10:00
-                                </Text>
-                                <Space h="xs" />
-                                <Badge color="green">Napisy</Badge>
-                            </Card>
-                        </Link>
-
-                            <Card
-                                shadow="sm"
-                                padding="xl"
-                                component="a"
-                                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                                target="_blank"
-                                >
-
-                                <Text fw={500} size="lg" mt="md">
-                                    12:30
-                                </Text>
-                                <Space h="xs" />
-                                <Badge color="grape">Dubbing</Badge>  
-                            </Card>
-
-                            <Card
-                                shadow="sm"
-                                padding="xl"
-                                component="a"
-                                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                                target="_blank"
-                                >
-
-                                <Text fw={500} size="lg" mt="md">
-                                    14:15
-                                </Text>
-                                <Space h="xs" />
-                                <Badge color="green">Napisy</Badge>
-                            </Card>
+                            {movie.screeningDates.map(screening => (
+                                <div className='hour'>
+                                    <Link to={`seats`}>
+                                        <Card
+                                            key={screening.date}
+                                            shadow="sm"
+                                            padding="xl"
+                                            component="a"
+                                        >
+                                            <Text fw={500} size="lg" mt="md">
+                                                {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </Text>
+                                            <Space h="xs" />
+                                            <Badge color={screening.format === "Napisy" ? "green" : "grape"}>{screening.format}</Badge>
+                                        </Card>
+                                    </Link>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
                     <div id="movie_description">
                         <h2> Opis </h2>
-                        <Text> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quam odio, auctor in lorem eget, ornare semper lorem. 
-                            Maecenas bibendum commodo velit id suscipit. Praesent eros mi, lacinia sit amet magna a, molestie fermentum diam. 
-                            Etiam lobortis ante nec nisl rutrum suscipit. Nam tempor dolor enim, nec pellentesque ex imperdiet eget. 
-                            Donec viverra, turpis eget sollicitudin eleifend, urna enim tincidunt ipsum, ut suscipit massa eros id eros. 
-                            Phasellus nec porta elit. Duis imperdiet urna a neque molestie convallis. Nam tempus dui malesuada leo egestas, in gravida dolor scelerisque. 
-                        </Text>
+                        <Text> {movie.description} </Text>
                     </div>
                 </div>
             </div>
+            ))}
         </div>
     );
-    }
+}
 
-    export default MoviesDetails;
+export default MoviesDetails;

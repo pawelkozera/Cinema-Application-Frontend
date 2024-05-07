@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
 import './movies.css'
+import logo from './a.png';
 
 function Movies() {
     const { cinemaName } = useParams();
@@ -10,7 +11,7 @@ function Movies() {
     const [availableFormats, setAvailableFormats] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/movies')
+        fetch(`http://localhost:8080/api/${cinemaName}/movies`)
             .then(response => response.json())
             .then(data => {
                 setMoviesData(data);
@@ -25,19 +26,19 @@ function Movies() {
             {moviesData.map(movie => (
                 <div key={movie.id} className='movie'>
                     <div className="movies_image">
-                        <Link to={`/movies/${movie.id}`}>
+                        <Link to={`${movie.id}`}>
                             <Image
                                 radius="md"
                                 h={200}
                                 w="auto"
                                 fit="contain"
-                                src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                                src={logo}
                             />
                         </Link>
                     </div>
 
                     <div className='movies_details'>
-                        <Link to={`/movies/${movie.id}`}>
+                        <Link to={`${movie.id}`}>
                             <h2>{movie.title}</h2>
                         </Link>
                         <Text>{movie.type}</Text>
@@ -48,19 +49,20 @@ function Movies() {
 
                     <div className="movies_hours">
                         {movie.screeningDates.map(screening => (
-                            <Card
-                                key={screening.date}
-                                shadow="sm"
-                                padding="xl"
-                                component="a"
-                                href={`/${movie.id}/seats`}
-                            >
-                                <Text fw={500} size="lg" mt="md">
-                                    {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </Text>
-                                <Space h="xs" />
-                                <Badge color={screening.format === "Napisy" ? "green" : "grape"}>{screening.format}</Badge>
-                            </Card>
+                            <Link to={`${movie.id}/seats`}>
+                                <Card
+                                    key={screening.date}
+                                    shadow="sm"
+                                    padding="xl"
+                                    component="a"
+                                >
+                                    <Text fw={500} size="lg" mt="md">
+                                        {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </Text>
+                                    <Space h="xs" />
+                                    <Badge color={screening.format === "Napisy" ? "green" : "grape"}>{screening.format}</Badge>
+                                </Card>
+                            </Link>
                         ))}
                     </div>
                 </div>
