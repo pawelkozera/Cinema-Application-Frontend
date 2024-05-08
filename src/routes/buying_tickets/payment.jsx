@@ -71,7 +71,7 @@ function Payment() {
         console.log(formatDateTime(screening.date));
     
         try {
-            const response = await fetch('http://localhost:8080/api/book', {
+            const response = await fetch('http://localhost:8080/api/ticket/book', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,8 +92,7 @@ function Payment() {
     
             if (response.ok) {
                 const bookedTicket = await response.json();
-                console.log('Ticket booked:', bookedTicket);
-                navigate('summary');
+                navigate(`${bookedTicket.uuid}`);
             } else {
                 console.error('Error booking ticket:', response.statusText);
             }

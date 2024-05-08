@@ -68,7 +68,7 @@ const router = createBrowserRouter([
         element: <Payment />,
       },
       {
-        path: ":cinemaName/movies/:movieId/:scheduleId/payment/summary",
+        path: ":cinemaName/movies/:movieId/:scheduleId/payment/:ticketUUID",
         element: <PaymentSummary />,
       },
       {
