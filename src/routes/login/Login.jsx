@@ -4,11 +4,11 @@ import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
 function Login() {
   const form = useForm({
     initialValues: {
-      login: '',
+      username: '',
       password: '',
     },
     validate: {
-      login: (value) => {
+      username: (value) => {
         return value.length <= 0 ? "Należy wpisać login" : null;
       },
       password: (value) => {
@@ -18,7 +18,8 @@ function Login() {
   });
 
   const handleSubmit = (values) => {
-        fetch('http://localhost:8080/api/login', {
+    
+        fetch('http://localhost:8080/api/auth/authenticate', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ function Login() {
         <TextInput
           label="Login"
           placeholder='Login' 
-          {...form.getInputProps('login')}
+          {...form.getInputProps('username')}
         />
 
         <PasswordInput

@@ -5,14 +5,14 @@ import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
 function Register() {
     const form = useForm({
         initialValues: {
-            login: '',
+            username: '',
             email: '',
             password: '',
             confirmPassword: '',
         },
 
         validate: {
-            login: (value) => {
+            username: (value) => {
                 return value.length <= 5 ? "Login musi składać się z minimum 6 znaków" : null;
             },
             email: (value) => {
@@ -46,7 +46,8 @@ function Register() {
     });
 
     const handleSubmit = (values) => {
-        fetch('http://localhost:8080/api/register', {
+        
+        fetch('http://localhost:8080/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ function Register() {
         <TextInput
           label="Login"
           placeholder='Login' 
-          {...form.getInputProps('login')}
+          {...form.getInputProps('username')}
         />
 
         <TextInput
