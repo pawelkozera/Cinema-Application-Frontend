@@ -60,15 +60,15 @@ const router = createBrowserRouter([
         element: <MoviesDetails />,
       },
       {
-        path: ":cinemaName/movies/:movieId/seats",
+        path: ":cinemaName/movies/:movieId/:scheduleId",
         element: <SelectSeats />,
       },
       {
-        path: ":cinemaName/movies/:movieId/seats/payment",
+        path: ":cinemaName/movies/:movieId/:scheduleId/payment",
         element: <Payment />,
       },
       {
-        path: ":cinemaName/movies/:movieId/seats/payment/summary",
+        path: ":cinemaName/movies/:movieId/:scheduleId/payment/summary",
         element: <PaymentSummary />,
       },
       {

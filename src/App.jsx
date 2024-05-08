@@ -9,13 +9,11 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <MantineProvider>
       <>
         <div className="App">
           Vite APP
         </div>
       </>
-  </MantineProvider>
   )
 }
 

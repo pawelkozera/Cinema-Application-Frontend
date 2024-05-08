@@ -49,7 +49,7 @@ function Movies() {
 
                     <div className="movies_hours">
                         {movie.screeningDates.map(screening => (
-                            <Link to={`${movie.id}/seats`}>
+                            <Link to={`${movie.id}/${screening.id}`}>
                                 <Card
                                     key={screening.date}
                                     shadow="sm"
