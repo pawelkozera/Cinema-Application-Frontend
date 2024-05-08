@@ -39,7 +39,7 @@ function Payment() {
             .then(response => response.json())
             .then(data => {
                 const movie = data[0];
-                const screening = movie.screeningDates.find(date => date.id === scheduleId);
+                const screening = movie.screeningDates.find(date => Number(date.id) === Number(scheduleId));
                 movie.screeningDates = [screening];
                 setScreening(screening);
                 if (movie.type === "Familijny") {

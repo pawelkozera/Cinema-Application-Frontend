@@ -18,7 +18,8 @@ function SelectSeats() {
             .then(response => response.json())
             .then(data => {
                 const movie = data[0];
-                const screening = movie.screeningDates.find(date => date.id === scheduleId);
+                const screening = movie.screeningDates.find(date => Number(date.id) === Number(scheduleId));
+                console.log(movie);
                 movie.screeningDates = [screening];
                 setScreening(movie.screeningDates[0]);
                 
@@ -42,7 +43,7 @@ function SelectSeats() {
         }
     }, []);
 
-    if (!movieData) {
+    if (!movieData || !screening) {
         return <div>Loading...</div>;
     }
 
