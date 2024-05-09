@@ -80,23 +80,23 @@ const router = createBrowserRouter([
         element: <History />,
       },
       {
-        path: "admin/addmovie",
+        path: ":cinemaName/admin/addmovie",
         element: <AdminAddMovie />,
       },
       {
-        path: "admin/editmovie",
+        path: ":cinemaName/admin/editmovie",
         element: <AdminEditMovie />,
       },
       {
-        path: "admin/deletemovie",
+        path: ":cinemaName/admin/deletemovie",
         element: <AdminDeleteMovie />,
       },
       {
-        path: "admin/addmoviehours",
+        path: ":cinemaName/admin/addmoviehours",
         element: <AdminAddMovieHours />,
       },
       {
-        path: "admin/deletemoviehours",
+        path: ":cinemaName/admin/deletemoviehours",
         element: <AdminDeleteMovieHours />,
       },
     ]

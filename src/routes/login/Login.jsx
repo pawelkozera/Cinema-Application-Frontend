@@ -1,5 +1,6 @@
 import { useForm } from '@mantine/form';
 import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
+import { useNavigate, useParams } from "react-router-dom";
 
 function Login() {
   const form = useForm({
@@ -17,6 +18,9 @@ function Login() {
     },
   });
 
+  const navigate = useNavigate();
+  const { cinemaName } = useParams();
+
   const handleSubmit = (values) => {
     
         fetch('http://localhost:8080/api/auth/authenticate', {
@@ -33,7 +37,9 @@ function Login() {
             return response.json();
         })
         .then(data => {
+            localStorage.setItem('JWT', JSON.stringify(data));
             console.log('Success:', data);
+            navigate(`/${cinemaName}/movies`);
         })
         .catch(error => {
             console.error('Error:', error);
