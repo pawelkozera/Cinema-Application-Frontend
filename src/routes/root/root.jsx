@@ -115,7 +115,7 @@ export default function Root() {
 
                         <ul className="nav-links">
                             <li>
-                                <Link to={`${cinemaName}/login`}>Konto</Link>
+                                <Link to={`${cinemaName}/account`}>Konto</Link>
                             </li>
                             <li>
                                 <Link to="#" onClick={handleLogout}>Wyloguj</Link>

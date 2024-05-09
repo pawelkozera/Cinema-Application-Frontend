@@ -72,11 +72,11 @@ const router = createBrowserRouter([
         element: <PaymentSummary />,
       },
       {
-        path: "account",
+        path: ":cinemaName/account",
         element: <Information />,
       },
       {
-        path: "account/history",
+        path: ":cinemaName/history",
         element: <History />,
       },
       {
