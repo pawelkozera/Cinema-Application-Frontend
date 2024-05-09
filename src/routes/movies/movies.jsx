@@ -11,7 +11,7 @@ function Movies() {
     const [availableFormats, setAvailableFormats] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/${cinemaName}/movies`)
+        fetch(`http://localhost:8080/api/movie/${cinemaName}/movies`)
             .then(response => response.json())
             .then(data => {
                 setMoviesData(data);
