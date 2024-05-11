@@ -40,3 +40,15 @@ li a:hover {
 #detail {
     margin-top: 80px;
 }
+
+.currentCinema {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 30px;
+}
+
+.currentCinema > .mantine-Text-root {
+    margin-left: 10px;
+    margin-top: 10px;
+}

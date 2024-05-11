@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useParams, useNavigate } from "react-router-dom";
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, Text } from '@mantine/core';
 import './root.css'
 
 export default function Root() {
@@ -71,11 +71,15 @@ export default function Root() {
             {isAdmin ? (
                 <div id="sidebar" style={{ display: location.pathname.startsWith(`/${cinemaName}/admin`) ? 'block' : 'none' }}>
                     <div className="title-container">
-                        <ul className="nav-links">
-                            <li>
-                                <Link to={`/`}>Wybierz kino</Link>
-                            </li>
-                        </ul>
+                        <div className='currentCinema'>
+                            <ul className="nav-links">
+                                <li>
+                                    <Link to={`/`}>Wybierz kino</Link>
+                                </li>
+                            </ul>
+
+                            <Text>Kino: {cinemaName}</Text>
+                        </div>
 
                         <ul className="nav-links">
                             <li>
@@ -107,11 +111,15 @@ export default function Root() {
             ) : isLoggedUser ? (
                 <div id="sidebar" style={{ display: (location.pathname === '/' || location.pathname.startsWith(`/${cinemaName}/admin`)) ? 'none' : 'block' }}>
                     <div className="title-container">
-                        <ul className="nav-links">
-                            <li>
-                                <Link to={`/`}>Wybierz kino</Link>
-                            </li>
-                        </ul>
+                        <div className='currentCinema'>
+                            <ul className="nav-links">
+                                <li>
+                                    <Link to={`/`}>Wybierz kino</Link>
+                                </li>
+                            </ul>
+
+                            <Text>Kino: {cinemaName}</Text>
+                        </div>
 
                         <ul className="nav-links">
                             <li>
@@ -126,11 +134,15 @@ export default function Root() {
             ) : (
                 <div id="sidebar" style={{ display: (location.pathname === '/' || location.pathname.startsWith(`/${cinemaName}/admin`)) ? 'none' : 'block' }}>
                     <div className="title-container">
-                        <ul className="nav-links">
-                            <li>
-                                <Link to={`/`}>Wybierz kino</Link>
-                            </li>
-                        </ul>
+                        <div className='currentCinema'>
+                            <ul className="nav-links">
+                                <li>
+                                    <Link to={`/`}>Wybierz kino</Link>
+                                </li>
+                            </ul>
+
+                            <Text>Kino: {cinemaName}</Text>
+                        </div>
 
                         <ul className="nav-links">
                             <li>
