@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
+import { PasswordInput, Group, Button, Box, TextInput, Space } from '@mantine/core';
 import { useNavigate, useParams } from "react-router-dom";
 
 function Register() {
@@ -101,8 +101,11 @@ function Register() {
             {...form.getInputProps('confirmPassword')}
         />
 
+        <Space h="xs" />
+        <Space h="xs" />
+
         <Group justify="center" mt="md">
-            <Button type="submit" radius="xl">Zarejestruj</Button>
+            <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Zarejestruj</Button>
         </Group>
         </form>
     </Box>

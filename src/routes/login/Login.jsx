@@ -1,6 +1,8 @@
 import { useForm } from '@mantine/form';
-import { PasswordInput, Group, Button, Box, TextInput } from '@mantine/core';
-import { useNavigate, useParams } from "react-router-dom";
+import { PasswordInput, Group, Button, Box, TextInput, Text, Space } from '@mantine/core';
+import { useNavigate, useParams, Link } from "react-router-dom";
+
+import './login.css'
 
 function Login() {
   const form = useForm({
@@ -61,10 +63,19 @@ function Login() {
           {...form.getInputProps('password')}
         />
 
+        
+        <Space h="xs" />
+        <Space h="xs" />
         <Group justify="center" mt="md">
-          <Button type="submit" radius="xl">Zaloguj</Button>
+          <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Zaloguj</Button>
         </Group>
       </form>
+
+      <div id='passwordRemember'>
+            <Link to={`/${cinemaName}/remember/password`}>
+                <Text> Nie pamiętam hasła </Text>
+            </Link>
+        </div>
     </Box>
   );
 }

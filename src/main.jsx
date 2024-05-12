@@ -25,6 +25,7 @@ import AdminEditMovie from './routes/admin/edit_movie.jsx';
 import AdminDeleteMovie from './routes/admin/delete_movie.jsx';
 import AdminAddMovieHours from './routes/admin/add_movie_hours.jsx';
 import AdminDeleteMovieHours from './routes/admin/delete_movie_hours.jsx';
+import RememberPassword from './routes/remember_password/remember_password.jsx';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: ":cinemaName/register",
         element: <Register />,
+      },
+      {
+        path: ":cinemaName/remember/password",
+        element: <RememberPassword />,
       },
       {
         path: ":cinemaName/pricelist",
