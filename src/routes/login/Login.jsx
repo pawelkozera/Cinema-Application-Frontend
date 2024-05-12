@@ -71,7 +71,7 @@ function Login() {
         </Group>
       </form>
 
-      <div id='passwordRemember'>
+        <div id='passwordRemember'>
             <Link to={`/${cinemaName}/remember/password`}>
                 <Text> Nie pamiętam hasła </Text>
             </Link>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect } from '@mantine/core';
 import { Link, useParams } from "react-router-dom";
+import CustomNotification from '../../components/CustomNotification';
+import { useForm } from '@mantine/form';
 
 import './payment_summary.css'
 import logo from './a.png';
@@ -8,6 +10,24 @@ import logo from './a.png';
 function PaymentSummary() {
     const { cinemaName, movieId, scheduleId, ticketUUID } = useParams();
     const [ticket, setTicket] = useState(null);
+    const [showTicketDownloadNotification, setShowTicketDownloadNotification] = useState(false);
+    const [showRefundNotification, setShowRefundNotification] = useState(false);
+
+    const downloadTicketForm = useForm({});
+
+    const refundForm = useForm({
+        initialValues: {
+            email: '',
+        },
+
+        validate: {
+            email: (value) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                return emailRegex.test(value) ? null : "Niepoprawny adres email";
+            },
+        },
+    });
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/ticket/${ticketUUID}`)
@@ -29,6 +49,14 @@ function PaymentSummary() {
     if (!ticket) {
         return <div>Loading...</div>;
     }
+
+    const handleSubmitDownloadTicket = (values) => {
+        setShowTicketDownloadNotification(true);
+    };
+
+    const handleSubmitRefundTicket = (values) => {
+        setShowRefundNotification(true);
+    };
 
     return (
         <div id='payment_summary_container'>
@@ -80,21 +108,54 @@ function PaymentSummary() {
 
                 <Space h="lg" />
                 <Space h="lg" />
-                <Button variant="filled" color="green" size="lg" radius="xl">Pobierz bilet</Button>
+                <form onSubmit={downloadTicketForm.onSubmit((values) => handleSubmitDownloadTicket(values))}>
+                    <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Pobierz bilet</Button>
+                </form>
+
+                <Space h="xs" />
+                <Space h="xs" />
+
+                {showTicketDownloadNotification && (
+                    <CustomNotification
+                        onClose={() => setShowTicketDownloadNotification(false)}
+                        color="green"
+                        radius="lg"
+                        title="Informacja"
+                    >
+                        Bilet został ponownie wysłany na podany przy zakupie adres email!
+                    </CustomNotification>
+                )}
             </div>
 
             <div id='payment_summary_rightside'>
-                <Text> Czas na zwrot biletu: </Text>
+                <form onSubmit={refundForm.onSubmit((values) => handleSubmitRefundTicket(values))}> 
+                    <Text> Czas na zwrot biletu: </Text>
+                    <Space h="xs" />
+                    <Text> Pozostało 4 dni 2 godziny </Text>
+                    <Space h="lg" />
+                    <TextInput
+                        label="Email"
+                        placeholder='Email' 
+                        {...refundForm.getInputProps('email')}
+                    />
+                    <Space h="lg" />
+                    <Space h="lg" />
+                    <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Zwrot biletu</Button>
+                </form>
+
                 <Space h="xs" />
-                <Text> Pozostało 4 dni 2 godziny </Text>
-                <Space h="lg" />
-                <TextInput
-                    label="Email"
-                    placeholder="Email"
-                />
-                <Space h="lg" />
-                <Space h="lg" />
-                <Button variant="filled" color="green" size="lg" radius="xl">Zwrot biletu</Button>
+                <Space h="xs" />
+
+                {showRefundNotification && (
+                    <CustomNotification
+                        onClose={() => setShowRefundNotification(false)}
+                        color="green"
+                        radius="lg"
+                        title="Informacja"
+                    >
+                        Potwierdzenie zwrotu biletu zostało wysłane na podany adres email!
+                    </CustomNotification>
+                )}
             </div>
         </div>
     );

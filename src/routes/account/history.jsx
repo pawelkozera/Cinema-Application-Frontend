@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import './account.css'
 import './history.css'
+import logo from './a.png';
 
 function History() {
     const { cinemaName } = useParams();
@@ -30,7 +31,7 @@ function History() {
                         h={150}
                         w="auto"
                         fit="contain"
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
+                        src={logo}
                     />
                     <div>
                         <h2> Tytuł </h2>

@@ -76,37 +76,37 @@ function Register() {
     return (
     <Box maw={340} mx="auto">
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <TextInput
-          label="Login"
-          placeholder='Login' 
-          {...form.getInputProps('username')}
-        />
+            <TextInput
+            label="Login"
+            placeholder='Login' 
+            {...form.getInputProps('username')}
+            />
 
-        <TextInput
-          label="Email"
-          placeholder='Email' 
-          {...form.getInputProps('email')}
-        />
+            <TextInput
+            label="Email"
+            placeholder='Email' 
+            {...form.getInputProps('email')}
+            />
 
-        <PasswordInput
-            label="Hasło"
-            placeholder="Hasło"
-            {...form.getInputProps('password')}
-        />
+            <PasswordInput
+                label="Hasło"
+                placeholder="Hasło"
+                {...form.getInputProps('password')}
+            />
 
-        <PasswordInput
-            mt="sm"
-            label="Potwórz hasło"
-            placeholder="Powtórz hasło"
-            {...form.getInputProps('confirmPassword')}
-        />
+            <PasswordInput
+                mt="sm"
+                label="Potwórz hasło"
+                placeholder="Powtórz hasło"
+                {...form.getInputProps('confirmPassword')}
+            />
 
-        <Space h="xs" />
-        <Space h="xs" />
+            <Space h="xs" />
+            <Space h="xs" />
 
-        <Group justify="center" mt="md">
-            <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Zarejestruj</Button>
-        </Group>
+            <Group justify="center" mt="md">
+                <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Zarejestruj</Button>
+            </Group>
         </form>
     </Box>
     );
