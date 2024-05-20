@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Image, Text, Space, Badge, TextInput, NumberInput, Select, Textarea, Button, MultiSelect, PasswordInput } from '@mantine/core';
-import { Link } from "react-router-dom";
+import { Select, Space, Button } from '@mantine/core';
+import { useParams } from "react-router-dom";
 
 import './admin_style.css'
 
@@ -38,19 +38,58 @@ function AdminDeleteMovie() {
         fetchRole();
     }, [token]);
 
+    const { cinemaName } = useParams();
+    const [moviesData, setMoviesData] = useState([]);
+    const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/movie/${cinemaName}/movies`)
+            .then(response => response.json())
+            .then(data => {
+                setMoviesData(data);
+                console.log(data);
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+    }, []);
+
+    const handleDeleteMovie = async () => {
+        if (!selectedMovieId) return;
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/movie/delete/${selectedMovieId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token.jwtToken}`
+                }
+            });
+            if (response.ok) {
+                console.log('Movie deleted successfully');
+            } else {
+                console.error('Failed to delete movie');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
-        <div class='admin_container'>
+        <div className='admin_container'>
             {isAdmin && (
-                <div class="admin_form">
+                <div className="admin_form">
                     <Select
                         label="Wybierz film"
                         placeholder="Wybierz film"
-                        data={['Film 1', 'Film 2', 'Film 3']}
+                        data={moviesData.map(movie => ({
+                            value: movie.id.toString(),
+                            label: movie.title
+                        }))}
+                        value={selectedMovieId}
+                        onChange={setSelectedMovieId}
                     />
                     
                     <Space h="lg" />
                     <Space h="lg" />
-                    <Button variant="filled" color="green" size="lg" radius="xl">Usuń film</Button>
+                    <Button variant="filled" color="red" size="lg" radius="xl" onClick={handleDeleteMovie}>Usuń film</Button>
                 </div>
             )}
         </div>
