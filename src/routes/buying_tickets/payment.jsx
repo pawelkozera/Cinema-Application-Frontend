@@ -19,9 +19,6 @@ function Payment() {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 
                 return emailRegex.test(value) ? null : "Niepoprawny adres email";
-            },
-            paymentMethod: (value) => {
-                return value ? null : "Proszę wybrać metodę płatności";
             }
         },
     });
@@ -67,39 +64,51 @@ function Payment() {
     }
 
     const handleSubmit = async (values) => {
-        const { email, paymentMethod } = values;
-        console.log(formatDateTime(screening.date));
+        const ticketPrice = calculatePrice();
+
+        const order = {
+            price: ticketPrice,
+            currency: "USD",
+            method: "paypal",
+            intent: "sale",
+            description: "description"
+        };
+
+        const ticketInformation = {
+            price: calculatePrice(),
+            seats: selectedSeats,
+            amount: selectedSeats.length,
+            user: null,
+            movie: movieData,
+            screeningSchedule: {
+                id: screening.id,
+                date: formatDateTime(screening.date),
+                format: screening.format
+            }
+        }
+
+        localStorage.setItem('ticketInformation', JSON.stringify(ticketInformation));
     
         try {
-            const response = await fetch('http://localhost:8080/api/ticket/book', {
+            const response = await fetch(`http://localhost:8080/api/payment/pay?cinemaName=${cinemaName}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    price: calculatePrice(),
-                    seats: selectedSeats,
-                    amount: selectedSeats.length,
-                    user: null,
-                    movie: movieData,
-                    screeningSchedule: {
-                        id: screening.id,
-                        date: formatDateTime(screening.date),
-                        format: screening.format
-                    }
-                }),
+                body: JSON.stringify(order),
             });
     
             if (response.ok) {
-                const bookedTicket = await response.json();
-                navigate(`${bookedTicket.uuid}`);
+                const approvalUrl = await response.text();
+                console.log("PayPal approval URL:", approvalUrl);
+                window.location.href = approvalUrl;
             } else {
-                console.error('Error booking ticket:', response.statusText);
+                console.error('Error:', response.statusText);
             }
         } catch (error) {
-            console.error('Error booking ticket:', error.message);
+            console.error('Error:', error.message);
         }
-    };
+    };    
 
     function formatDateTime(dateTime) {
         const date = new Date(dateTime);
@@ -123,12 +132,7 @@ function Payment() {
                             {...form.getInputProps('email')}
                         />
                         <Space h="lg" />
-                        <Select
-                            label="Wybierz płatność"
-                            placeholder="Wybierz płatność"
-                            data={['PayPal', 'ING']}
-                            {...form.getInputProps('paymentMethod')}
-                        />
+
                         <Space h="lg" />
                         <Text>Ilość: {selectedSeats.length}</Text>
                         <Space h="lg" />
@@ -136,7 +140,7 @@ function Payment() {
                         <Space h="lg" />
 
                         <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Kup</Button>
-                    </form>
+                    </form>                    
                 </div>
 
                 <div id="payment_rightside">
