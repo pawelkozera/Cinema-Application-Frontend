@@ -6,14 +6,18 @@ import './admin_style.css';
 function AdminAddMovie() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [screeningSchedules, setScreeningSchedules] = useState([]);
+    const [cinemas, setCinemas] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
-        date: [],
         ageRating: '',
         description: '',
         length: '',
         countryProduction: '',
         yearProduction: '',
+        category: '',
+        type: '',
+        screeningScheduleIds: [],
+        cinemaIds: []
     });
     const token = JSON.parse(localStorage.getItem('JWT'));
 
@@ -42,17 +46,36 @@ function AdminAddMovie() {
             });
             if (response.ok) {
                 const data = await response.json();
-                const formattedData = data.map(schedule => {
-                    const date = new Date(schedule.date);
-                    return {
-                        value: String(schedule.id),
-                        label: `${date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' })} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ${schedule.format}`
-                    };
-                });
+                const formattedData = data.map(schedule => ({
+                    value: String(schedule.id),
+                    label: `${new Date(schedule.date).toLocaleString()} ${schedule.format}`
+                }));
                 setScreeningSchedules(formattedData);
-                console.log(formattedData);
             } else {
                 console.error('Failed to fetch screening schedules');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const fetchCinemas = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/getCinemas', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token.jwtToken}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const formattedData = data.map(cinema => ({
+                    value: String(cinema.id),
+                    label: cinema.name
+                }));
+                setCinemas(formattedData);
+            } else {
+                console.error('Failed to fetch cinemas');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -66,6 +89,7 @@ function AdminAddMovie() {
                 setIsAdmin(isAdmin);
                 if (isAdmin) {
                     await fetchScreeningSchedules();
+                    await fetchCinemas();
                 }
             }
         };
@@ -73,9 +97,8 @@ function AdminAddMovie() {
         fetchData();
     }, []);
 
-    const handleSubmit = async (value) => {
-        value.preventDefault();
-        console.log(formData.title); 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             const response = await fetch('http://localhost:8080/api/movie/addMovie', {
                 method: 'POST',
@@ -83,14 +106,7 @@ function AdminAddMovie() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.jwtToken}`
                 },
-                body: JSON.stringify({
-                    title: formData.title,
-                    ageRating: formData.ageRating,
-                    description: formData.description,
-                    length: formData.length,
-                    countryProduction: formData.countryProduction,
-                    yearProduction: formData.yearProduction,
-                })
+                body: JSON.stringify(formData)
             });
             if (response.ok) {
                 console.log('Movie added successfully');
@@ -102,8 +118,8 @@ function AdminAddMovie() {
         }
     };
 
-    const handleMultiSelectChange = (selected) => {
-        setFormData({ ...formData, date: selected });
+    const handleMultiSelectChange = (field, values) => {
+        setFormData({ ...formData, [field]: values });
     };
 
     return (
@@ -122,8 +138,16 @@ function AdminAddMovie() {
                             label="Wybierz godziny"
                             placeholder="Wybierz godziny"
                             data={screeningSchedules}
-                            value={formData.date}
-                            onChange={handleMultiSelectChange}
+                            value={formData.screeningScheduleIds}
+                            onChange={(values) => handleMultiSelectChange('screeningScheduleIds', values)}
+                        />
+
+                        <MultiSelect
+                            label="Wybierz kina"
+                            placeholder="Wybierz kina"
+                            data={cinemas}
+                            value={formData.cinemaIds}
+                            onChange={(values) => handleMultiSelectChange('cinemaIds', values)}
                         />
 
                         <NumberInput
@@ -160,7 +184,21 @@ function AdminAddMovie() {
                             value={formData.yearProduction}
                             onChange={(value) => setFormData({ ...formData, yearProduction: value })}
                         />
-                        
+
+                        <TextInput
+                            label="Kategoria"
+                            placeholder="Kategoria"
+                            value={formData.category}
+                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        />
+
+                        <TextInput
+                            label="Typ"
+                            placeholder="Typ"
+                            value={formData.type}
+                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        />
+
                         <Space h="lg" />
                         <Space h="lg" />
                         <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Dodaj film</Button>

@@ -1,7 +1,7 @@
 import { useForm } from '@mantine/form';
 import { PasswordInput, Group, Button, Box, TextInput, Text, Space } from '@mantine/core';
 import { useNavigate, useParams, Link } from "react-router-dom";
-
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import './login.css'
 
 function Login() {
@@ -48,6 +48,37 @@ function Login() {
         });
     };
 
+    const handleGoogleSuccess = (response) => {
+      console.log('Google login success:', response);
+      fetch('http://localhost:8080/api/auth/authenticateWithGoogle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ oAuth2AuthenticationToken: response.credential }),
+      })
+    
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        localStorage.setItem('JWT', data.token);
+        console.log('Success:', data);
+        navigate(`/${cinemaName}/movies`);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    };    
+  
+    const handleGoogleFailure = (response) => {
+      console.log('Google login failure:', response);
+    };
+  
+
   return (
     <Box maw={340} mx="auto">
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
@@ -70,7 +101,15 @@ function Login() {
           <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Zaloguj</Button>
         </Group>
       </form>
-
+      <Group justify="center" mt="md">
+        <GoogleOAuthProvider clientId=''>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onFailure={handleGoogleFailure}
+            cookiePolicy={'single_host_origin'}
+          />
+        </GoogleOAuthProvider>
+      </Group>
         <div id='passwordRemember'>
             <Link to={`/${cinemaName}/remember/password`}>
                 <Text> Nie pamiętam hasła </Text>
