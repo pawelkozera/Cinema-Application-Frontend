@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { TextInput, NumberInput, Textarea, Button, MultiSelect, Select, Space } from '@mantine/core';
 import { useParams } from 'react-router-dom';
+import CustomNotification from '../../components/CustomNotification';
 
 import './admin_style.css';
 
 function AdminAddMovie() {
     const { cinemaName } = useParams();
 
+    const [isMovieAdded, setIsMovieAdded] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [screeningSchedules, setScreeningSchedules] = useState([]);
     const [cinemas, setCinemas] = useState([]);
@@ -113,6 +115,19 @@ function AdminAddMovie() {
             });
             if (response.ok) {
                 console.log('Movie added successfully');
+                setFormData({
+                    title: '',
+                    ageRating: '',
+                    description: '',
+                    length: '',
+                    countryProduction: '',
+                    yearProduction: '',
+                    category: '',
+                    type: '',
+                    screeningScheduleIds: [],
+                    cinemaIds: []
+                });
+                setIsMovieAdded(true);
             } else {
                 console.error('Failed to add movie');
             }
@@ -205,6 +220,19 @@ function AdminAddMovie() {
                         <Space h="lg" />
                         <Space h="lg" />
                         <Button type="submit" variant="filled" color="green" size="lg" radius="xl">Dodaj film</Button>
+
+                        <Space h="lg" />
+                        <Space h="lg" />
+                        {isMovieAdded && 
+                            <CustomNotification
+                            onClose={() => setIsMovieAdded(false)}
+                            color="green"
+                            radius="lg"
+                            title="Informacja"
+                            >
+                                Nowy film został dodany!
+                            </CustomNotification>
+                        }
                     </form>
                 </div>
             )}
