@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, NumberInput, Textarea, Button, MultiSelect, Space } from '@mantine/core';
+import { TextInput, NumberInput, Textarea, Button, MultiSelect, Select, Space } from '@mantine/core';
+import { useParams } from 'react-router-dom';
 
 import './admin_style.css';
 
 function AdminAddMovie() {
+    const { cinemaName } = useParams();
+
     const [isAdmin, setIsAdmin] = useState(false);
     const [screeningSchedules, setScreeningSchedules] = useState([]);
     const [cinemas, setCinemas] = useState([]);
@@ -61,7 +64,7 @@ function AdminAddMovie() {
 
     const fetchCinemas = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/getCinemas', {
+            const response = await fetch(`http://localhost:8080/api/getCinemaByName/${cinemaName}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token.jwtToken}`
@@ -69,10 +72,10 @@ function AdminAddMovie() {
             });
             if (response.ok) {
                 const data = await response.json();
-                const formattedData = data.map(cinema => ({
-                    value: String(cinema.id),
-                    label: cinema.name
-                }));
+                const formattedData = [{
+                    value: String(data.id),
+                    label: data.name
+                }];
                 setCinemas(formattedData);
             } else {
                 console.error('Failed to fetch cinemas');
