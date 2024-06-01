@@ -11,6 +11,7 @@ function SelectSeats() {
     const [movieData, setMovieData] = useState(null);
     const [screening, setScreening] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [takenSeats, setTakenSeats] = useState([]);
     const [availableSeats, setAvailableSeats] = useState([]);
     const [ticketPrice, setTicketPrice] = useState(17);
 
@@ -43,10 +44,11 @@ function SelectSeats() {
             setSelectedSeats(seatsFromLocalStorage);
         }
 
+        fetchTakenSeats();
         fetchAvailableSeats();
     }, []);
 
-    const fetchAvailableSeats = async () => {
+    const fetchTakenSeats = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/screeningSchedule/getTakenSeats/${scheduleId}`, {
                 method: 'GET',
@@ -56,9 +58,28 @@ function SelectSeats() {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
+                setTakenSeats(data);
+            } else {
+                console.error('Failed to fetch taken seats');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const fetchAvailableSeats = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/room/getAvailableSeats/${scheduleId}`, {
+                method: 'GET',
+                headers: {
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
                 setAvailableSeats(data);
             } else {
-                console.error('Failed to fetch cinemas');
+                console.error('Failed to fetch available seats');
             }
         } catch (error) {
             console.error('Error:', error);
