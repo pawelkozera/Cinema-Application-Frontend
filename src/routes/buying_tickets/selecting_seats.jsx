@@ -11,6 +11,7 @@ function SelectSeats() {
     const [movieData, setMovieData] = useState(null);
     const [screening, setScreening] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [availableSeats, setAvailableSeats] = useState([]);
     const [ticketPrice, setTicketPrice] = useState(17);
 
     useEffect(() => {
@@ -41,7 +42,28 @@ function SelectSeats() {
         if (seatsFromLocalStorage) {
             setSelectedSeats(seatsFromLocalStorage);
         }
+
+        fetchAvailableSeats();
     }, []);
+
+    const fetchAvailableSeats = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/screeningSchedule/getTakenSeats/${scheduleId}`, {
+                method: 'GET',
+                headers: {
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setAvailableSeats(data);
+            } else {
+                console.error('Failed to fetch cinemas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     if (!movieData || !screening) {
         return <div>Loading...</div>;
