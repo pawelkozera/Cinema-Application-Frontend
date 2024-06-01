@@ -7,7 +7,7 @@ import logo from './a.png';
 import seats from './b.png';
 
 function SelectSeats() {
-    const { cinemaName, movieId, scheduleId} = useParams();
+    const { cinemaName, movieId, scheduleId } = useParams();
     const [movieData, setMovieData] = useState(null);
     const [screening, setScreening] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
@@ -16,9 +16,10 @@ function SelectSeats() {
     const [ticketPrice, setTicketPrice] = useState(17);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/movie/${cinemaName}/movies/${movieId}`)
-            .then(response => response.json())
-            .then(data => {
+        const fetchMovieData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/movie/${cinemaName}/movies/${movieId}`);
+                const data = await response.json();
                 const movie = data[0];
                 const screening = movie.screeningDates.find(date => Number(date.id) === Number(scheduleId));
                 console.log(movie);
@@ -30,8 +31,12 @@ function SelectSeats() {
                 }
 
                 setMovieData(movie);
-            })
-            .catch(error => console.error('Error fetching movies:', error));
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            }
+        };
+
+        fetchMovieData();
     }, [cinemaName, movieId, scheduleId]);
 
     useEffect(() => {
@@ -39,31 +44,40 @@ function SelectSeats() {
     }, [selectedSeats]);
 
     useEffect(() => {
-        const seatsFromLocalStorage = JSON.parse(localStorage.getItem('selectedSeats'));
-        if (seatsFromLocalStorage) {
-            setSelectedSeats(seatsFromLocalStorage);
-        }
+        const initializeSeats = async () => {
+            const seatsFromLocalStorage = JSON.parse(localStorage.getItem('selectedSeats'));
+            if (seatsFromLocalStorage) {
+                setSelectedSeats(seatsFromLocalStorage);
+            }
 
-        fetchTakenSeats();
-        fetchAvailableSeats();
+            const takenSeats = await fetchTakenSeats();
+            const availableSeats = await fetchAvailableSeats();
+
+            const availableSeatsWithoutTaken = availableSeats.filter(seat => !takenSeats.includes(seat));
+            setAvailableSeats(availableSeatsWithoutTaken);
+        };
+
+        initializeSeats();
     }, []);
 
     const fetchTakenSeats = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/screeningSchedule/getTakenSeats/${scheduleId}`, {
                 method: 'GET',
-                headers: {
-                }
+                headers: {}
             });
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setTakenSeats(data);
+                setTakenSeats(data.takenSeats);
+                return data.takenSeats;
             } else {
                 console.error('Failed to fetch taken seats');
+                return [];
             }
         } catch (error) {
             console.error('Error:', error);
+            return [];
         }
     };
 
@@ -71,18 +85,20 @@ function SelectSeats() {
         try {
             const response = await fetch(`http://localhost:8080/api/room/getAvailableSeats/${scheduleId}`, {
                 method: 'GET',
-                headers: {
-                }
+                headers: {}
             });
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setAvailableSeats(data);
+                setAvailableSeats(data.seats);
+                return data.seats;
             } else {
                 console.error('Failed to fetch available seats');
+                return [];
             }
         } catch (error) {
             console.error('Error:', error);
+            return [];
         }
     };
 
@@ -140,7 +156,7 @@ function SelectSeats() {
                         <MultiSelect
                             label="Wybierz miejsca"
                             placeholder="Wybierz miejsca"
-                            data={["1", "2", "3", "4"]}
+                            data={availableSeats}
                             value={selectedSeats}
                             onChange={setSelectedSeats}
                             hidePickedOptions
