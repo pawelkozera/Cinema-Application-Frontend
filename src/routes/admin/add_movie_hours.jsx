@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Space, Badge, TextInput, NumberInput, Select, Textarea, Button, MultiSelect, PasswordInput } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 import { Link } from "react-router-dom";
+import { useForm } from '@mantine/form';
+import dayjs from 'dayjs';
 
 import './admin_style.css'
 
 function AdminAddMovieHours() {
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
+
+    const form = useForm({
+        initialValues: {
+            date: '',
+            format: '',
+        },
+        validate: {
+        },
+    });
 
     const checkRole = async (role) => {
         try {
@@ -16,11 +28,7 @@ function AdminAddMovieHours() {
                     'Authorization': `Bearer ${token.jwtToken}`
                 }
             });
-            if (response.ok) {
-                return true;
-            } else {
-                return false;
-            }
+            return response.ok;
         } catch (error) {
             console.error('Error:', error);
             return false;
@@ -38,30 +46,65 @@ function AdminAddMovieHours() {
         fetchRole();
     }, [token]);
 
+    const handleSubmit = (values) => {
+        const formattedValues = {
+            ...values,
+            date: dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss')
+        };
+
+        console.log(formattedValues);
+
+        fetch('http://localhost:8080/api/screeningSchedule/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.jwtToken}`
+            },
+            body: JSON.stringify(formattedValues),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+
     return (
-        <div class='admin_container'>
+        <div className='admin_container'>
             {isAdmin && (
-                <div class="admin_form">
-                    <TextInput
-                        label="Godzina filmu"
-                        placeholder="Godzina filmu"
-                    />
+                <div className="admin_form">
+                    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+                        <DateTimePicker
+                            valueFormat="YYYY-MM-DD HH:mm:ss"
+                            label="Godzina filmu"
+                            placeholder="Godzina filmu"
+                            {...form.getInputProps('date')}
+                        />
 
-                    <Select
-                        label="Typ filmu"
-                        placeholder="Wybierz typ filmu"
-                        data={['Napisy', 'Dubbing']}
-                    />
+                        <Select
+                            label="Typ filmu"
+                            placeholder="Wybierz typ filmu"
+                            data={['Napisy', 'Dubbing']}
+                            {...form.getInputProps('format')}
+                        />
 
-                    <Select
-                        label="Sala"
-                        placeholder="Wybierz sale"
-                        data={['Sala A', 'Sala B']}
-                    />
-                    
-                    <Space h="lg" />
-                    <Space h="lg" />
-                    <Button variant="filled" color="green" size="lg" radius="xl">Dodaj godzinę</Button>
+                        <Select
+                            label="Sala"
+                            placeholder="Wybierz sale"
+                            data={['Sala A', 'Sala B']}
+                        />
+                        
+                        <Space h="lg" />
+                        <Space h="lg" />
+                        <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Dodaj godzinę</Button>
+                    </form>
                 </div>
             )}
         </div>
