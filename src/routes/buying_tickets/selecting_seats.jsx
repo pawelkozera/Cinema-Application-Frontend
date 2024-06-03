@@ -64,7 +64,9 @@ function SelectSeats() {
         try {
             const response = await fetch(`http://localhost:8080/api/screeningSchedule/getTakenSeats/${scheduleId}`, {
                 method: 'GET',
-                headers: {}
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
             if (response.ok) {
                 const data = await response.json();
@@ -85,7 +87,9 @@ function SelectSeats() {
         try {
             const response = await fetch(`http://localhost:8080/api/room/getAvailableSeats/${scheduleId}`, {
                 method: 'GET',
-                headers: {}
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
             if (response.ok) {
                 const data = await response.json();
