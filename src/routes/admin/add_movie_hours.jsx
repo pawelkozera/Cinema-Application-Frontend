@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Space, Badge, TextInput, NumberInput, Select, Textarea, Button, MultiSelect, PasswordInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
 
 import './admin_style.css'
 
 function AdminAddMovieHours() {
+    const { cinemaName } = useParams();
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
+    const [rooms, setRooms] = useState([]);
 
     const form = useForm({
         initialValues: {
             date: '',
             format: '',
+            roomId: '',
         },
         validate: {
         },
@@ -46,6 +49,34 @@ function AdminAddMovieHours() {
         fetchRole();
     }, [token]);
 
+    const fetchRooms = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/room/byCinemaName/${cinemaName}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token.jwtToken}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setRooms(data);
+                console.log(data);
+            }
+            else if (response.status === 204) {
+                console.log('No content');
+            }
+            else {
+                console.error('Failed to fetch screening schedules');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchRooms();
+    }, []);
+
     const handleSubmit = (values) => {
         const formattedValues = {
             ...values,
@@ -54,7 +85,7 @@ function AdminAddMovieHours() {
 
         console.log(formattedValues);
 
-        fetch('http://localhost:8080/api/screeningSchedule/add', {
+        fetch(`http://localhost:8080/api/screeningSchedule/add/${formattedValues.roomId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +129,8 @@ function AdminAddMovieHours() {
                         <Select
                             label="Sala"
                             placeholder="Wybierz sale"
-                            data={['Sala A', 'Sala B']}
+                            data={rooms.map(room => ({ value: room.id.toString(), label: room.name }))}
+                            {...form.getInputProps('roomId')}
                         />
                         
                         <Space h="lg" />
