@@ -10,6 +10,7 @@ import './account.css'
 
 function Information() {
     const [showNotification, setShowNotification] = useState(false);
+    const [showNotificationWrongPassword, setShowNotificationWrongPassword] = useState(false);
     const { cinemaName } = useParams();
     const [email, setEmail] = useState('');
     const token = JSON.parse(localStorage.getItem('JWT'));
@@ -79,7 +80,35 @@ function Information() {
     }, []);
 
     const handleSubmitChangePassword = (values) => {
-        setShowNotification(true);
+        fetch('http://localhost:8080/api/changePassword', {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token.jwtToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values),
+        })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 400) {
+                    changePasswordForm.reset();
+                    setShowNotificationWrongPassword(true);
+                    throw new Error('Wrong old password');
+                }
+                else {
+                    throw new Error('Network response was not ok');
+                }
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            changePasswordForm.reset();
+            setShowNotification(true);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     };
 
     return (
@@ -137,15 +166,25 @@ function Information() {
                 <Space h="lg" />
 
                 {showNotification && (
-                <CustomNotification
-                    onClose={() => setShowNotification(false)}
-                    color="green"
-                    radius="lg"
-                    title="Informacja"
-                >
-                    Hasło zostało zmienione!
-                </CustomNotification>
-            )}
+                    <CustomNotification
+                        onClose={() => setShowNotification(false)}
+                        color="green"
+                        radius="lg"
+                        title="Informacja"
+                    >
+                        Hasło zostało zmienione!
+                    </CustomNotification>
+                )}
+                {showNotificationWrongPassword && (
+                    <CustomNotification
+                        onClose={() => setShowNotificationWrongPassword(false)}
+                        color="red"
+                        radius="lg"
+                        title="Błąd"
+                    >
+                        Stare hasło jest niepoprawne!
+                    </CustomNotification>
+                )}
             </div>
         </div>
     );
