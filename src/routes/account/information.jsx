@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect, PasswordInput, Group } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,8 @@ import './account.css'
 function Information() {
     const [showNotification, setShowNotification] = useState(false);
     const { cinemaName } = useParams();
+    const [email, setEmail] = useState('');
+    const token = JSON.parse(localStorage.getItem('JWT'));
 
     const changePasswordForm = useForm({
         initialValues: {
@@ -52,6 +54,30 @@ function Information() {
         },
     });
 
+    const fetchEmail = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/getEmail`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token.jwtToken}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.text();
+                console.log(data);
+                setEmail(data);
+            } else {
+                console.error('Failed to fetch cinemas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchEmail();
+    }, []);
+
     const handleSubmitChangePassword = (values) => {
         setShowNotification(true);
     };
@@ -69,7 +95,7 @@ function Information() {
             </div>
             <div class="account_rightside">
                 <div id='account_information_details'>
-                    <Text> Email: test@gmail.com</Text>
+                    <Text> {email} </Text>
                     <Space h="lg" />
                     <Space h="lg" />
 
