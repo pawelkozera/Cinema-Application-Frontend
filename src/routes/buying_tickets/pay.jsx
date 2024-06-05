@@ -8,6 +8,7 @@ function Pay() {
     const ticketInformation = JSON.parse(localStorage.getItem('ticketInformation'));
     const { cinemaName } = useParams();
     const navigate = useNavigate();
+    const token = JSON.parse(localStorage.getItem('JWT'));
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -48,20 +49,25 @@ function Pay() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/ticket/book', {
+            const dataToSend = JSON.stringify({
+                price: ticketInformation.price,
+                seats: ticketInformation.seats,
+                amount: ticketInformation.amount,
+                user: null,
+                movie: ticketInformation.movie,
+                screeningSchedule: ticketInformation.screeningSchedule
+            });
+
+            const requestOptions = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token.jwtToken}` })
                 },
-                body: JSON.stringify({
-                    price: ticketInformation.price,
-                    seats: ticketInformation.seats,
-                    amount: ticketInformation.amount,
-                    user: null,
-                    movie: ticketInformation.movie,
-                    screeningSchedule: ticketInformation.screeningSchedule
-                }),
-            });
+                body: dataToSend
+            };
+
+            const response = await fetch('http://localhost:8080/api/ticket/book', requestOptions);
     
             if (response.ok) {
                 const bookedTicket = await response.json();

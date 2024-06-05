@@ -68,7 +68,7 @@ function Payment() {
 
         const order = {
             price: ticketPrice,
-            currency: "USD",
+            currency: "PLN",
             method: "paypal",
             intent: "sale",
             description: "description"
