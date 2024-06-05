@@ -15,6 +15,7 @@ function Movies() {
             .then(response => response.json())
             .then(data => {
                 setMoviesData(data);
+                console.log(data);
                 const formats = new Set(data.flatMap(movie => movie.screeningDates.map(screening => screening.format)));
                 setAvailableFormats(Array.from(formats));
             })
@@ -29,10 +30,10 @@ function Movies() {
                         <Link to={`${movie.id}`}>
                             <Image
                                 radius="md"
-                                h={200}
+                                h={300}
                                 w="auto"
                                 fit="contain"
-                                src={logo}
+                                src={movie.imageUrl}
                             />
                         </Link>
                     </div>

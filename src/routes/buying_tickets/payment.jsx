@@ -149,10 +149,10 @@ function Payment() {
                             <Link to={`/${cinemaName}/movies/${movieId}`}>
                                 <Image
                                     radius="md"
-                                    h={150}
+                                    h={300}
                                     w="auto"
                                     fit="contain"
-                                    src={logo}
+                                    src={movieData.imageUrl}
                                 />
                             </Link>
                         </div>

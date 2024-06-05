@@ -21,6 +21,7 @@ function AdminAddMovie() {
         yearProduction: '',
         category: '',
         type: '',
+        imageUrl: '',
         screeningScheduleIds: [],
         cinemaIds: []
     });
@@ -124,6 +125,7 @@ function AdminAddMovie() {
                     yearProduction: '',
                     category: '',
                     type: '',
+                    imageUrl: '',
                     screeningScheduleIds: [],
                     cinemaIds: []
                 });
@@ -215,6 +217,13 @@ function AdminAddMovie() {
                             placeholder="Typ"
                             value={formData.type}
                             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        />
+
+                        <TextInput
+                            label="Link do miniatury"
+                            placeholder="Link do miniatury"
+                            value={formData.imageUrl}
+                            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                         />
 
                         <Space h="lg" />

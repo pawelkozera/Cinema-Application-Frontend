@@ -28,10 +28,10 @@ function MoviesDetails() {
                     <div id="movie_image">
                         <Image
                             radius="md"
-                            h={200}
+                            h={300}
                             w="auto"
                             fit="contain"
-                            src={logo}
+                            src={movie.imageUrl}
                         />
                     </div>
 

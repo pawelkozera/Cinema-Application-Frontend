@@ -22,6 +22,7 @@ function AdminEditMovie() {
         yearProduction: '',
         category: '',
         type: '',
+        imageUrl: '',
         screeningScheduleIds: [],
         cinemaIds: []
     });
@@ -106,6 +107,7 @@ function AdminEditMovie() {
                 yearProduction: selectedMovie.yearProduction,
                 category: selectedMovie.category,
                 type: selectedMovie.type,
+                imageUrl: selectedMovie.imageUrl,
                 screeningScheduleIds: selectedMovie.screeningDates.map(schedule => String(schedule.id)),
                 cinemaIds: selectedMovie.cinemaIds
             });
@@ -134,6 +136,7 @@ function AdminEditMovie() {
                     yearProduction: '',
                     category: '',
                     type: '',
+                    imageUrl: '',
                     screeningScheduleIds: [],
                     cinemaIds: []
                 });
@@ -225,6 +228,13 @@ function AdminEditMovie() {
                             placeholder="Typ"
                             value={formData.type}
                             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        />
+
+                        <TextInput
+                            label="Link do miniatury"
+                            placeholder="Link do miniatury"
+                            value={formData.imageUrl}
+                            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                         />
 
                         <Space h="lg" />
