@@ -1,7 +1,7 @@
 import { useForm } from '@mantine/form';
 import { PasswordInput, Group, Button, Box, TextInput, Text, Space } from '@mantine/core';
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useEffect } from 'react';
 import './login.css'
 
 function Login() {
@@ -48,36 +48,20 @@ function Login() {
         });
     };
 
-    const handleGoogleSuccess = (response) => {
-      console.log('Google login success:', response);
-      fetch('http://localhost:8080/api/auth/authenticateWithGoogle', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ oAuth2AuthenticationToken: response.credential }),
-      })
-    
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        localStorage.setItem('JWT', data.token);
-        console.log('Success:', data);
-        navigate(`/${cinemaName}/movies`);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    };    
+    const handleLoginWithGoogle = () => {
+      window.location.href = 'http://localhost:8080/login/oauth2/code/google';
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
   
-    const handleGoogleFailure = (response) => {
-      console.log('Google login failure:', response);
-    };
-  
+    if (token) {
+      const tokenObject = { jwtToken: token };
+      localStorage.setItem('JWT', JSON.stringify(tokenObject));
+      navigate(`/${cinemaName}/movies`);
+    }
+  }, [navigate, cinemaName]);
 
   return (
     <Box maw={340} mx="auto">
@@ -102,13 +86,9 @@ function Login() {
         </Group>
       </form>
       <Group justify="center" mt="md">
-        <GoogleOAuthProvider clientId=''>
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onFailure={handleGoogleFailure}
-            cookiePolicy={'single_host_origin'}
-          />
-        </GoogleOAuthProvider>
+      <div>
+      <button onClick={handleLoginWithGoogle}>Zaloguj się za pomocą Google</button>
+      </div>
       </Group>
         <div id='passwordRemember'>
             <Link to={`/${cinemaName}/remember/password`}>
