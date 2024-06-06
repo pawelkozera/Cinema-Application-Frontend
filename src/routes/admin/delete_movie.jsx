@@ -7,6 +7,7 @@ import './admin_style.css'
 
 function AdminDeleteMovie() {
     const [isMovieDeleted, setIsMovieDeleted] = useState(false);
+    const [isMovieDeletedTicketError, setIsMovieDeletedTicketError] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
 
@@ -69,19 +70,24 @@ function AdminDeleteMovie() {
                     'Authorization': `Bearer ${token.jwtToken}`
                 }
             });
+    
             if (response.ok) {
                 console.log('Movie deleted successfully');
                 setIsMovieDeleted(true);
                 fetchMovies();
                 setSelectedMovieId(null);
             } else {
-                console.error('Failed to delete movie');
+                if (response.status === 400) {
+                    setIsMovieDeletedTicketError(true);
+                } else {
+                    console.error('Failed to delete movie, status:', response.status);
+                }
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
-
+    
     return (
         <div className='admin_container'>
             {isAdmin && (
@@ -111,6 +117,17 @@ function AdminDeleteMovie() {
                         title="Informacja"
                         >
                             Film został usunięty!
+                        </CustomNotification>
+                    }
+
+                    {isMovieDeletedTicketError && 
+                        <CustomNotification
+                        onClose={() => setIsMovieDeletedTicketError(false)}
+                        color="red"
+                        radius="lg"
+                        title="Informacja"
+                        >
+                            Film posiada bilety!
                         </CustomNotification>
                     }
                 </div>
