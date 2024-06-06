@@ -105,6 +105,9 @@ export default function Root() {
                             <li>
                                 <Link to={`/${cinemaName}/admin/deletemoviehours`}>Usuń godziny</Link>
                             </li>
+                            <li>
+                                <Link to={`/${cinemaName}/admin/transactions`}>Transakcje</Link>
+                            </li>
                         </ul>
                     </nav>
                 </div>

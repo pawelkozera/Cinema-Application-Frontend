@@ -25,6 +25,7 @@ import AdminEditMovie from './routes/admin/edit_movie.jsx';
 import AdminDeleteMovie from './routes/admin/delete_movie.jsx';
 import AdminAddMovieHours from './routes/admin/add_movie_hours.jsx';
 import AdminDeleteMovieHours from './routes/admin/delete_movie_hours.jsx';
+import AdminTransactions from './routes/admin/transactions.jsx';
 import RememberPassword from './routes/remember_password/remember_password.jsx';
 import Pay from './routes/buying_tickets/pay.jsx';
 
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
       {
         path: ":cinemaName/admin/deletemoviehours",
         element: <AdminDeleteMovieHours />,
+      },
+      {
+        path: ":cinemaName/admin/transactions",
+        element: <AdminTransactions />,
       },
       {
         path: ":cinemaName/pay/success",
