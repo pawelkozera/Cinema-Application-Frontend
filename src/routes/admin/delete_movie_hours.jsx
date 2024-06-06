@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Space, Badge, TextInput, NumberInput, Select, Textarea, Button, MultiSelect, PasswordInput } from '@mantine/core';
 import { Link } from "react-router-dom";
+import CustomNotification from '../../components/CustomNotification';
 
 import './admin_style.css'
 
 function AdminDeleteMovieHours() {
+    const [isHourDeleted, setIsHourDeleted] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
     const [scheduleData, setScheduleData] = useState([]);
@@ -78,6 +80,7 @@ function AdminDeleteMovieHours() {
             if (response.ok) {
                 console.log('Schedule deleted successfully');
                 setSelectedScheduleId(null);
+                setIsHourDeleted(true);
             } else {
                 console.error('Failed to delete schedule');
             }
@@ -104,6 +107,18 @@ function AdminDeleteMovieHours() {
                     <Space h="lg" />
                     <Space h="lg" />
                     <Button variant="filled" color="red" size="lg" radius="xl" onClick={handleDeleteSchedule}>Usuń godzinę</Button>
+                    <Space h="lg" />
+                    <Space h="lg" />
+                    {isHourDeleted && 
+                        <CustomNotification
+                        onClose={() => setIsHourDeleted(false)}
+                        color="green"
+                        radius="lg"
+                        title="Informacja"
+                        >
+                            Godzina została usunięta!
+                        </CustomNotification>
+                    }
                 </div>
             )}
         </div>

@@ -4,6 +4,7 @@ import { DateTimePicker } from '@mantine/dates';
 import { Link, useParams } from "react-router-dom";
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
+import CustomNotification from '../../components/CustomNotification';
 
 import './admin_style.css'
 
@@ -12,6 +13,7 @@ function AdminAddMovieHours() {
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
     const [rooms, setRooms] = useState([]);
+    const [isHourAdded, setIsHourAdded] = useState(false);
 
     const form = useForm({
         initialValues: {
@@ -101,6 +103,8 @@ function AdminAddMovieHours() {
         })
         .then(data => {
             console.log('Success:', data);
+            setIsHourAdded(true);
+            form.reset();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -137,6 +141,20 @@ function AdminAddMovieHours() {
                         <Space h="lg" />
                         <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Dodaj godzinę</Button>
                     </form>
+
+                    <Space h="lg" />
+                    <Space h="lg" />
+                    
+                    {isHourAdded && 
+                            <CustomNotification
+                            onClose={() => setIsHourAdded(false)}
+                            color="green"
+                            radius="lg"
+                            title="Informacja"
+                            >
+                                Nowa godzina została dodana!
+                            </CustomNotification>
+                        }
                 </div>
             )}
         </div>

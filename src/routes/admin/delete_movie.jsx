@@ -104,15 +104,15 @@ function AdminDeleteMovie() {
                     <Space h="lg" />
 
                     {isMovieDeleted && 
-                            <CustomNotification
-                            onClose={() => setIsMovieDeleted(false)}
-                            color="green"
-                            radius="lg"
-                            title="Informacja"
-                            >
-                                Film został usunięty!
-                            </CustomNotification>
-                        }
+                        <CustomNotification
+                        onClose={() => setIsMovieDeleted(false)}
+                        color="green"
+                        radius="lg"
+                        title="Informacja"
+                        >
+                            Film został usunięty!
+                        </CustomNotification>
+                    }
                 </div>
             )}
         </div>
