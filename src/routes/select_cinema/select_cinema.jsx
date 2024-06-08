@@ -24,7 +24,7 @@ function SelectCinema() {
             <div className="cinemas">
                 {cinemaNames.map((cinemaName, index) => (
                     <Link to={`${cinemaName}/movies`} key={index}>
-                        <Card shadow="sm" padding="xl" component="a">
+                        <Card shadow="sm" padding="xl" component="a" withBorder p="xl">
                             <Text fw={500} size="lg" mt="md">
                                 {cinemaName}
                             </Text>

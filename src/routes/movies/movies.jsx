@@ -124,7 +124,7 @@ function Movies() {
                                     })
                                     .map(screening => screening.format)))
                                     .map(format => (
-                                        <Badge key={format} color={format === "Napisy" ? "#38a169" : "#4b3361"}>{format}</Badge>
+                                        <Badge key={format} color={format === "Napisy" ? "#166b2d" : "#4b3361"}>{format}</Badge>
                                     ))}
                             </div>
                         </div>
@@ -147,7 +147,7 @@ function Movies() {
                                                 {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </Text>
                                             <Space h="xs" />
-                                            <Badge color={screening.format === "Napisy" ? "#38a169" : "#4b3361"}>{screening.format}</Badge>
+                                            <Badge color={screening.format === "Napisy" ? "#166b2d" : "#4b3361"}>{screening.format}</Badge>
                                         </Card>
                                     </Link>
                                 ))}
