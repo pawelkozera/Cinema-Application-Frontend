@@ -35,12 +35,35 @@ function Movies() {
         setSelectedDate(date);
     };
 
-    const formatDate = (date) => {
-        return date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
+    const dayNamesPolish = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
+    const monthNamesPolish = ['Stycznia', 'Lutego', 'Marca', 'Kwietnia', 'Maja', 'Czerwca', 'Lipca', 'Sierpnia', 'Września', 'Października', 'Listopada', 'Grudnia'];
+
+    const formatDate = (date, index) => {
+        const day = date.getDate();
+        const month = monthNamesPolish[date.getMonth()];
+        if (index === 0) {
+            return (
+                <>
+                    <div>Dzisiaj</div>
+                    <div>{day} {month}</div>
+                </>
+            );
+        } else if (index === 1) {
+            return (
+                <>
+                    <div>Jutro</div>
+                    <div>{day} {month}</div>
+                </>
+            );
+        } else {
+            const dayName = dayNamesPolish[date.getDay()];
+            return (
+                <>
+                    <div>{dayName}</div>
+                    <div>{day} {month}</div>
+                </>
+            );
+        }
     };
 
     const filteredMovies = moviesData.filter(movie =>
@@ -54,7 +77,7 @@ function Movies() {
         <div className='movies_container'>
             <div className='movies_date_selector'>
                 <Group className='movies_date_selector_panel' position="center" spacing="xs">
-                    {nextSevenDays.map(date => (
+                    {nextSevenDays.map((date, index) => (
                         <Card
                             shadow="sm"
                             padding="xl"
@@ -65,8 +88,8 @@ function Movies() {
                             onClick={() => handleDateChange(date)}
                             className={`date-card ${date.toDateString() === selectedDate.toDateString() ? 'selected' : ''}`}
                         >
-                            <Text fw={500} size="lg" mt="md">
-                                {formatDate(date)}
+                            <Text fw={500} size="lg" mt="md" align="center">
+                                {formatDate(date, index)}
                             </Text>
                         </Card>
                     ))}
