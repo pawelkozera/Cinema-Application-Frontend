@@ -6,10 +6,16 @@
     padding-top: 20px;
 }
 
+.left_side {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .movies_details {
-    max-width: 200px;
     margin-left: 40px;
     margin-bottom: 40px;
+    width: 180px;
 }
 
 .movies_hours {
@@ -23,4 +29,28 @@
 
 a {
     color: inherit;
+}
+
+.movies_date_selector_panel {
+    justify-content: center;
+}
+
+.movies_list {
+    margin-top: 40px;
+}
+
+.date-card {
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.date-card:hover {
+    background-color: #38a169;
+    color: white;
+}
+
+.date-card.selected {
+    background-color: #4b3361;
+    color: white;
 }

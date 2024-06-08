@@ -48,7 +48,7 @@ function MoviesDetails() {
                         </div>
                         <div id="movie_voice_type">
                             {availableFormats.map(format => (
-                                <Badge key={format} color={format === "Napisy" ? "green" : "grape"}>{format}</Badge>
+                                <Badge key={format} color={format === "Napisy" ? "#38a169" : "#4b3361"}>{format}</Badge>
                             ))}
                         </div>
 
@@ -63,12 +63,13 @@ function MoviesDetails() {
                                                 shadow="sm"
                                                 padding="xl"
                                                 component="a"
+                                                withBorder p="xl"
                                             >
                                                 <Text fw={500} size="lg" mt="md">
                                                     {new Date(screening.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </Text>
                                                 <Space h="xs" />
-                                                <Badge color={screening.format === "Napisy" ? "green" : "grape"}>{screening.format}</Badge>
+                                                <Badge color={screening.format === "Napisy" ? "#38a169" : "#4b3361"}>{screening.format}</Badge>
                                             </Card>
                                         </Link>
                                     </div>
