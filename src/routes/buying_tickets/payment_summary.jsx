@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect } from '@mantine/core';
-import { Link, useParams } from "react-router-dom";
+import { Card, Image, Text, Space, Badge, TextInput, Button, MultiSelect } from '@mantine/core';
+import { useParams } from "react-router-dom";
 import CustomNotification from '../../components/CustomNotification';
 import { useForm } from '@mantine/form';
 
-import './payment_summary.css'
+import './payment_summary.css';
 import logo from './a.png';
 
 function PaymentSummary() {
@@ -12,6 +12,8 @@ function PaymentSummary() {
     const [ticket, setTicket] = useState(null);
     const [showTicketDownloadNotification, setShowTicketDownloadNotification] = useState(false);
     const [showRefundNotification, setShowRefundNotification] = useState(false);
+    const [refundDisabled, setRefundDisabled] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState("");
 
     const downloadTicketForm = useForm({});
 
@@ -40,6 +42,25 @@ function PaymentSummary() {
             .then(data => {
                 setTicket(data);
                 console.log(data);
+
+                const screeningDate = new Date(data.screeningDate);
+                const currentTime = new Date();
+                const timeDifference = screeningDate - currentTime;
+
+                if (timeDifference < 7200000) {
+                    setRefundDisabled(true);
+                    setTimeRemaining("Zwrot biletu jest niemożliwy.");
+                } else {
+                    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+                    if (days > 0) {
+                        setTimeRemaining(`Pozostało ${days} dni ${hours} godziny`);
+                    } else {
+                        setTimeRemaining(`Pozostało ${hours} godziny ${minutes} minuty`);
+                    }
+                }
             })
             .catch(error => {
                 console.error('There was a problem with your fetch operation:', error);
@@ -61,18 +82,18 @@ function PaymentSummary() {
     return (
         <div id='payment_summary_container'>
             <div id='payment_summary_leftside'>
-                <div class="selecting_seats_movie_details">
-                    <div class="selecting_seats_movie_image">
+                <div className="selecting_seats_movie_details">
+                    <div className="selecting_seats_movie_image">
                         <Image
                             radius="md"
                             h={150}
                             w="auto"
                             fit="contain"
-                            src={logo}
+                            src={ticket.imageUrl}
                         />
                     </div>
 
-                    <div class='selecting_seats_movie_information'>
+                    <div className='selecting_seats_movie_information'>
                         <h1> {ticket.movieTitle} </h1>
                     </div>
                     <Card
@@ -90,7 +111,11 @@ function PaymentSummary() {
 
                 <Space h="lg" />
                 <Space h="lg" />
-                <Text> Status transakcji: Zapłacono</Text>
+                {ticket.paid ? (
+                    <Text> Status transakcji: Zapłacono</Text>
+                ) : (
+                    <Text> Status transakcji: Nie zapłacono</Text>
+                )}
                 <Space h="lg" />
                 <Space h="lg" />
 
@@ -131,16 +156,17 @@ function PaymentSummary() {
                 <form onSubmit={refundForm.onSubmit((values) => handleSubmitRefundTicket(values))}> 
                     <Text> Czas na zwrot biletu: </Text>
                     <Space h="xs" />
-                    <Text> Pozostało 4 dni 2 godziny </Text>
+                    <Text>{timeRemaining}</Text>
                     <Space h="lg" />
                     <TextInput
                         label="Email"
                         placeholder='Email' 
                         {...refundForm.getInputProps('email')}
+                        disabled={refundDisabled}
                     />
                     <Space h="lg" />
                     <Space h="lg" />
-                    <Button type='submit' variant="filled" color="green" size="lg" radius="xl">Zwrot biletu</Button>
+                    <Button type='submit' variant="filled" color="green" size="lg" radius="xl" disabled={refundDisabled}>Zwrot biletu</Button>
                 </form>
 
                 <Space h="xs" />
