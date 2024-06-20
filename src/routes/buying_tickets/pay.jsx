@@ -5,6 +5,7 @@ import { Button, Space, Text } from '@mantine/core';
 function Pay() {
     const location = useLocation();
     const [queryParams, setQueryParams] = useState(null);
+    const ticketId = JSON.parse(localStorage.getItem('ticketId'));
     const ticketInformation = JSON.parse(localStorage.getItem('ticketInformation'));
     const { cinemaName } = useParams();
     const navigate = useNavigate();
@@ -29,54 +30,34 @@ function Pay() {
             console.error('No ticket information found');
             return;
         }
-    
-        try {
-            const response = await fetch(`http://localhost:8080/api/payment/execute?paymentId=${queryParams.paymentId}&PayerID=${queryParams.PayerID}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            if (response.ok) {
-                const approvalUrl = await response.text();
-                console.log("PayPal approval URL:", approvalUrl);
-            } else {
-                console.error('Error:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
 
+        if (!ticketId) {
+            console.error('No ticket id found');
+            return;
+        }
+    
         try {
             const dataToSend = JSON.stringify({
-                price: ticketInformation.price,
-                seats: ticketInformation.seats,
-                amount: ticketInformation.amount,
-                user: null,
-                movie: ticketInformation.movie,
-                screeningSchedule: ticketInformation.screeningSchedule
+                uuid: ticketId,
             });
 
-            const requestOptions = {
+            const response = await fetch(`http://localhost:8080/api/payment/execute?paymentId=${queryParams.paymentId}&PayerID=${queryParams.PayerID}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     ...(token && { 'Authorization': `Bearer ${token.jwtToken}` })
                 },
                 body: dataToSend
-            };
-
-            const response = await fetch('http://localhost:8080/api/ticket/book', requestOptions);
+            });
     
             if (response.ok) {
                 const bookedTicket = await response.json();
                 navigate(`/${cinemaName}/payment/${bookedTicket.uuid}`);
             } else {
-                console.error('Error booking ticket:', response.statusText);
+                console.error('Error:', response.statusText);
             }
         } catch (error) {
-            console.error('Error booking ticket:', error.message);
+            console.error('Error:', error.message);
         }
     };
 

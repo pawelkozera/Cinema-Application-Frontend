@@ -91,7 +91,7 @@ function AdminTransactions() {
     return (
         <div className='admin_container'>
             {isAdmin && (
-                <div className="admin_form">
+                <div className="admin_transactions">
                     <Table>
                         <thead>
                             <tr>

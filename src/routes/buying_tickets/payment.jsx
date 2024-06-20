@@ -36,6 +36,7 @@ function Payment() {
     const [screening, setScreening] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [ticketPrice, setTicketPrice] = useState(17);
+    const token = JSON.parse(localStorage.getItem('JWT'));
 
     const navigate = useNavigate();
 
@@ -74,14 +75,6 @@ function Payment() {
     const handleSubmit = async (values) => {
         const ticketPrice = calculatePrice();
 
-        const order = {
-            price: ticketPrice,
-            currency: "PLN",
-            method: "paypal",
-            intent: "sale",
-            description: "description"
-        };
-
         const ticketInformation = {
             price: calculatePrice(),
             seats: selectedSeats,
@@ -95,6 +88,16 @@ function Payment() {
             }
         }
 
+        const order = {
+            price: ticketPrice,
+            currency: "PLN",
+            method: "paypal",
+            intent: "sale",
+            description: "description",
+            id: movieId,
+            ticket: ticketInformation,
+        };
+
         localStorage.setItem('ticketInformation', JSON.stringify(ticketInformation));
     
         try {
@@ -102,14 +105,17 @@ function Payment() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token.jwtToken}` })
                 },
                 body: JSON.stringify(order),
             });
     
             if (response.ok) {
-                const approvalUrl = await response.text();
-                console.log("PayPal approval URL:", approvalUrl);
-                window.location.href = approvalUrl;
+                const data = await response.json();
+                console.log("PayPal approval URL:", data.approvalUrl);
+                localStorage.setItem('ticketId', JSON.stringify(data.ticketId));
+
+                window.location.href = data.approvalUrl;
             } else {
                 console.error('Error:', response.statusText);
             }
