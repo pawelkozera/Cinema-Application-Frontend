@@ -42,23 +42,27 @@ function PaymentSummary() {
             .then(data => {
                 setTicket(data);
                 console.log(data);
-
+    
                 const screeningDate = new Date(data.screeningDate);
                 const currentTime = new Date();
-                const timeDifference = screeningDate - currentTime;
-
-                if (timeDifference < 7200000) {
+                const refundDeadline = new Date(screeningDate.getTime() - 2 * 60 * 60 * 1000);
+    
+                const timeDifference = refundDeadline - currentTime;
+    
+                if (timeDifference <= 0) {
                     setRefundDisabled(true);
                     setTimeRemaining("Zwrot biletu jest niemożliwy.");
                 } else {
                     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-
+    
                     if (days > 0) {
-                        setTimeRemaining(`Pozostało ${days} dni ${hours} godziny`);
+                        setTimeRemaining(`Pozostało ${days} dni ${hours} godzin`);
+                    } else if (hours > 0) {
+                        setTimeRemaining(`Pozostało ${hours} godzin ${minutes} minut`);
                     } else {
-                        setTimeRemaining(`Pozostało ${hours} godziny ${minutes} minuty`);
+                        setTimeRemaining(`Pozostało ${minutes} minut`);
                     }
                 }
             })
