@@ -3,6 +3,7 @@ import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useForm } from '@mantine/form';
+import { useUser } from '../../context/userContext';
 import CustomNotification from '../../components/CustomNotification';
 
 import './information.css'
@@ -12,7 +13,7 @@ function Information() {
     const [showNotification, setShowNotification] = useState(false);
     const [showNotificationWrongPassword, setShowNotificationWrongPassword] = useState(false);
     const { cinemaName } = useParams();
-    const [email, setEmail] = useState('');
+    const { email } = useUser();
     const token = JSON.parse(localStorage.getItem('JWT'));
 
     const changePasswordForm = useForm({
@@ -54,30 +55,6 @@ function Information() {
             },
         },
     });
-
-    const fetchEmail = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/getEmail`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token.jwtToken}`
-                }
-            });
-            if (response.ok) {
-                const data = await response.text();
-                console.log(data);
-                setEmail(data);
-            } else {
-                console.error('Failed to fetch cinemas');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchEmail();
-    }, []);
 
     const handleSubmitChangePassword = (values) => {
         fetch('http://localhost:8080/api/changePassword', {

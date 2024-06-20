@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { MantineProvider, Text } from '@mantine/core';
+import { UserProvider, useUser } from '../../context/userContext';
 import './root.css'
 
-export default function Root() {
+function RootContent() {
     const { cinemaName } = useParams();
     const location = useLocation();
     const [isAdmin, setIsAdmin] = useState(false);
     const [isLoggedUser, setIsLoggedUser] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
+    const { email, setEmail } = useUser();
 
     const checkRole = async (role) => {
         try {
@@ -29,19 +31,39 @@ export default function Root() {
         }
     };
 
-    const navigate = useNavigate();
-
+    const fetchEmail = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/getEmail`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token.jwtToken}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.text();
+                console.log(data);
+                return data;
+            } else {
+                console.error('Failed to fetch email');
+                return null;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
+    
     useEffect(() => {
         const fetchRole = async () => {
             if (token) {
                 const isAdmin = await checkRole('ADMIN');
                 const isUser = await checkRole('USER');
-
+    
                 if (isAdmin) {
                     console.log("admin");
                     setIsAdmin(true);
                     setIsLoggedUser(false);
-                    
+    
                     if (!location.pathname.startsWith(`/${cinemaName}/admin`) && location.pathname !== '/') {
                         navigate(`${cinemaName}/admin/addmovie`);
                     }
@@ -49,20 +71,28 @@ export default function Root() {
                     console.log("user");
                     setIsAdmin(false);
                     setIsLoggedUser(true);
-                }
-                else {
+                    if (email === "") {
+                        const fetchedEmail = await fetchEmail();
+                        setEmail(fetchedEmail);
+                    }
+                } else {
                     localStorage.removeItem('JWT');
+                    setIsAdmin(false);
+                    setIsLoggedUser(false);
                 }
             }
         };
-
+    
         fetchRole();
-    }, [token]);
+    }, [token]);    
+
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('JWT');
         setIsAdmin(false);
         setIsLoggedUser(false);
+        setEmail("");
         navigate(`${cinemaName}/movies`);
     };
 
@@ -188,3 +218,10 @@ export default function Root() {
     );
 }
 
+export default function Root() {
+    return (
+        <UserProvider>
+            <RootContent />
+        </UserProvider>
+    );
+}
