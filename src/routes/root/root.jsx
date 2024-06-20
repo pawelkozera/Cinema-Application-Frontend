@@ -81,6 +81,13 @@ function RootContent() {
                     setIsLoggedUser(false);
                 }
             }
+            else {
+                setIsAdmin(false);
+                setIsLoggedUser(false);
+                if (location.pathname.startsWith(`/${cinemaName}/admin`)) {
+                    navigate("/");
+                }
+            }
         };
     
         fetchRole();
@@ -93,7 +100,13 @@ function RootContent() {
         setIsAdmin(false);
         setIsLoggedUser(false);
         setEmail("");
-        navigate(`${cinemaName}/movies`);
+
+        if (isLoggedUser) {
+            navigate(`${cinemaName}/movies`);
+        }
+        else {
+            navigate("/");
+        }
     };
 
     return (
