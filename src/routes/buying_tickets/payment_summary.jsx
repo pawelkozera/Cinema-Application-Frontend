@@ -98,7 +98,7 @@ function PaymentSummary() {
                     </div>
 
                     <div className='selecting_seats_movie_information'>
-                        <h1> {ticket.movieTitle} </h1>
+                        <h1 className='movie_title'> {ticket.movieTitle} </h1>
                     </div>
                     <Card
                         shadow="sm"

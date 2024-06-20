@@ -143,7 +143,7 @@ function SelectSeats() {
                         </div>
 
                         <div class='selecting_seats_movie_information'>
-                            <Link to={`/${cinemaName}/movies/${movieId}`}> <h1> {movieData.title} </h1> </Link>
+                            <Link to={`/${cinemaName}/movies/${movieId}`}> <h1 className='movie_title'> {movieData.title} </h1> </Link>
                         </div>
                         <Card shadow="sm" padding="xl">
                             <Text fw={500} size="lg" mt="md">
