@@ -84,7 +84,8 @@ function RootContent() {
             else {
                 setIsAdmin(false);
                 setIsLoggedUser(false);
-                if (location.pathname.startsWith(`/${cinemaName}/admin`)) {
+                const notAllowedSites = location.pathname.startsWith(`/${cinemaName}/admin`) || location.pathname.startsWith(`/${cinemaName}/account`) || location.pathname.startsWith(`/${cinemaName}/history`);
+                if (notAllowedSites) {
                     navigate("/");
                 }
             }
