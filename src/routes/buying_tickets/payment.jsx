@@ -1,16 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect } from '@mantine/core';
+import { Card, Image, Text, Space, Badge, TextInput, Select, Button, MultiSelect, em } from '@mantine/core';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useForm } from '@mantine/form';
+import { useUser } from '../../context/userContext';
 
 import './payment.css'
 import logo from './a.png';
 import seats from './b.png';
 
 function Payment() {
+    const { email } = useUser();
+    const [initialEmail, setInitialEmail] = useState(email);
+
+    useEffect(() => {
+        setInitialEmail(email);
+    }, [email]);
+
     const form = useForm({
         initialValues: {
-            email: '',
+            email: initialEmail || '',
             paymentMethod: '',
         },
 
