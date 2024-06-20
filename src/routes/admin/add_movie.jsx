@@ -44,7 +44,7 @@ function AdminAddMovie() {
 
     const fetchScreeningSchedules = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/screeningSchedule/getSchedules', {
+            const response = await fetch('http://localhost:8080/api/screeningSchedule/getUpcomingSchedules', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token.jwtToken}`

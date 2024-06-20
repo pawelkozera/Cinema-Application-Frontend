@@ -95,7 +95,6 @@ function AdminTransactions() {
                     <Table>
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Payment ID</th>
                                 <th>Payer ID</th>
                                 <th>Cena</th>
@@ -108,7 +107,6 @@ function AdminTransactions() {
                         <tbody>
                             {transactions.map(transaction => (
                                 <tr key={transaction.id}>
-                                    <td>{transaction.id}</td>
                                     <td>{transaction.paymentId}</td>
                                     <td>{transaction.payerId}</td>
                                     <td>{transaction.price}</td>
