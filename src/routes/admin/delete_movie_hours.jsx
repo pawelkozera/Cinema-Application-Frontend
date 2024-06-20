@@ -7,6 +7,8 @@ import './admin_style.css'
 
 function AdminDeleteMovieHours() {
     const [isHourDeleted, setIsHourDeleted] = useState(false);
+    const [isHourDeletedTicketError, setIsHourDeletedTicketError] = useState(false);
+    const [isHourDeletedMovieError, setIsHourDeletedMovieError] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const token = JSON.parse(localStorage.getItem('JWT'));
     const [scheduleData, setScheduleData] = useState([]);
@@ -81,8 +83,19 @@ function AdminDeleteMovieHours() {
                 console.log('Schedule deleted successfully');
                 setSelectedScheduleId(null);
                 setIsHourDeleted(true);
-            } else {
-                console.error('Failed to delete schedule');
+            } 
+            else {
+                if (response.status === 400) {
+                    response.text().then(text => {
+                        if (text === 'Cannot delete screening schedule with tickets') {
+                            setIsHourDeletedTicketError(true);
+                        } else if (text === 'Cannot delete screening schedule with movies') {
+                            setIsHourDeletedMovieError(true);
+                        }
+                    });
+                } else {
+                    console.error('Failed to delete movie, status:', response.status);
+                }
             }
         } catch (error) {
             console.error('Error:', error);
@@ -117,6 +130,28 @@ function AdminDeleteMovieHours() {
                         title="Informacja"
                         >
                             Godzina została usunięta!
+                        </CustomNotification>
+                    }
+
+                    {isHourDeletedTicketError && 
+                        <CustomNotification
+                        onClose={() => setIsHourDeletedTicketError(false)}
+                        color="red"
+                        radius="lg"
+                        title="Informacja"
+                        >
+                            Godzina posiada istniejące bilety!
+                        </CustomNotification>
+                    }
+
+                    {isHourDeletedMovieError && 
+                        <CustomNotification
+                        onClose={() => setIsHourDeletedMovieError(false)}
+                        color="red"
+                        radius="lg"
+                        title="Informacja"
+                        >
+                            Godzina posiada istniejące filmy!
                         </CustomNotification>
                     }
                 </div>
